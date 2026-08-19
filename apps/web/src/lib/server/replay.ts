@@ -1,17 +1,15 @@
 import "server-only";
 
-import { privateKeyToAccount } from "viem/accounts";
 import {
   DeterministicPolicyEngine,
   DeterministicReplayAnalyzer,
   EgressRiskPipeline,
   InMemorySourceFetcher,
   InMemoryStore,
-  RiskAttestationSigner,
   RiskAuditLogger,
   SourceIngestionService,
   StaticMarketContextProvider,
-  REPLAY_PRIVATE_KEY,
+  riskEventRecordSchema,
   REPLAY_REVISIONS,
   REPLAY_SOURCE,
   replayMarketContext,
@@ -19,8 +17,15 @@ import {
 } from "@egress/risk-engine";
 import type { ReplayApiResponse, ReplayRevision } from "../types";
 import { loadPhase5Artifact } from "./snapshot";
+import replayEvidenceJson from "../../../../../reports/risk-replay/replay.json";
 
 const REVISIONS: ReplayRevision[] = ["A", "B", "C"];
+const replayEvidence = replayEvidenceJson as Array<{
+  revision: ReplayRevision;
+  status: string;
+  event: unknown;
+  message: string;
+}>;
 
 function assertRevision(value: unknown): asserts value is ReplayRevision {
   if (typeof value !== "string" || !REVISIONS.includes(value as ReplayRevision)) {
@@ -32,7 +37,6 @@ export async function runReplayRevision(value: unknown): Promise<ReplayApiRespon
   assertRevision(value);
   const now = new Date("2026-08-14T10:00:00.000Z");
   const store = new InMemoryStore();
-  const account = privateKeyToAccount(REPLAY_PRIVATE_KEY);
   const policy = replayPolicy(now);
   let selected:
     | Awaited<ReturnType<EgressRiskPipeline["run"]>>
@@ -48,7 +52,8 @@ export async function runReplayRevision(value: unknown): Promise<ReplayApiRespon
       ),
       revisionStore: store,
       analyzer: new DeterministicReplayAnalyzer(() => now),
-      attestationSigner: new RiskAttestationSigner(account),
+      // Public replay requests use committed evidence; no runtime signer is permitted.
+      attestationSigner: null,
       marketProvider: new StaticMarketContextProvider(replayMarketContext(now)),
       policyEngine: new DeterministicPolicyEngine(),
       auditLogger: new RiskAuditLogger(store),
@@ -84,12 +89,23 @@ export async function runReplayRevision(value: unknown): Promise<ReplayApiRespon
   const diff = await store.getDiff(selected.event.diffIds.at(-1) ?? "");
   if (!snapshot || !diff) throw new Error(`Replay revision ${value} is missing source evidence`);
 
+  const evidence = replayEvidence.find((candidate) => candidate.revision === value);
+  if (!evidence) throw new Error(`Replay revision ${value} has no committed evidence record`);
+  const event = riskEventRecordSchema.parse(evidence.event);
+  if (
+    event.riskEventId !== selected.event.riskEventId ||
+    event.sourceRevisionIds.join(",") !== selected.event.sourceRevisionIds.join(",") ||
+    event.diffIds.join(",") !== selected.event.diffIds.join(",")
+  ) {
+    throw new Error(`Replay revision ${value} evidence does not match deterministic reconstruction`);
+  }
+
   const artifact = await loadPhase5Artifact();
   return {
     revision: value,
-    pipelineStatus: value === "C" ? "EVALUATED" : "EVALUATED",
-    message: selected.message,
-    event: selected.event,
+    pipelineStatus: evidence.status,
+    message: evidence.message,
+    event,
     snapshot,
     diff,
     autonomous:

@@ -113,6 +113,9 @@ The current live observer path is a separately configured read-only service.
 When it has no complete current snapshot, the UI displays `UNAVAILABLE` and
 does not reuse historical values as current. The older pinned-fork fixture is
 shown only as historical simulation evidence and is labeled as such.
+The replay endpoint serves the checked-in replay evidence artifact and
+reconstructs its source/diff identities without creating a signer at request
+time.
 
 ## Database and Observer
 
