@@ -1,0 +1,43 @@
+name: Egress quality
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.22.0
+          cache: npm
+      - uses: foundry-rs/foundry-toolchain@v1
+      - run: npm ci
+      - run: npm run security:scan
+      - run: npm run verify:phase11-evidence
+      - run: npm run typecheck
+      - run: npm run test:all
+      - run: npm run build
+      - run: npm run fmt:solidity:check
+      - run: npm run test:solidity
+
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.22.0
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:web:e2e

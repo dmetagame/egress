@@ -1,0 +1,48 @@
+{
+  "name": "egress",
+  "private": true,
+  "type": "module",
+  "packageManager": "npm@11.6.2",
+  "engines": {
+    "node": ">=22.22.0 <23"
+  },
+  "scripts": {
+    "build": "npm run build:web",
+    "build:risk": "npm --workspace @egress/risk-engine run build",
+    "build:web": "npm --workspace @egress/web run build",
+    "dev:web": "npm run build:risk && npm --workspace @egress/web run dev",
+    "test": "npm run test:risk",
+    "test:risk": "npm --workspace @egress/risk-engine run test",
+    "test:database-privileges": "npm --workspace @egress/risk-engine run test:database-privileges",
+    "test:web": "npm --workspace @egress/web run test",
+    "test:all": "npm run test:risk && npm run test:web",
+    "test:web:e2e": "npm --workspace @egress/web run test:e2e",
+    "typecheck": "npm --workspace @egress/risk-engine run typecheck",
+    "typecheck:phase11": "tsc -p tsconfig.phase11.json",
+    "typecheck:web": "npm run build:risk && npm --workspace @egress/web run typecheck",
+    "ingest": "npm --workspace @egress/risk-engine run ingest",
+    "replay": "npm --workspace @egress/risk-engine run replay",
+    "live:poll": "npm --workspace @egress/risk-engine run live:poll --",
+    "db:migrate": "npm --workspace @egress/risk-engine run db:migrate",
+    "execution:stage": "npm --workspace @egress/risk-engine run execution:stage --",
+    "live:archive": "npm --workspace @egress/risk-engine run live:archive --",
+    "phase4:fork": "forge build && tsx scripts/phase4-fork.ts",
+    "keeper:shadow": "forge build && tsx scripts/phase5-fork.ts",
+    "phase5:fork": "forge build && tsx scripts/phase5-fork.ts --execute",
+    "phase10:fork": "forge build && node --import tsx scripts/phase10-fork.ts",
+    "phase11:deploy": "forge build && node --import tsx scripts/phase11-deploy.ts",
+    "phase11:reconcile": "node --import tsx packages/risk-engine/src/cli/testnet-deployment-reconcile.ts",
+    "phase11:publish-manifest": "node --import tsx packages/risk-engine/src/cli/testnet-deployment-publish.ts",
+    "phase11:verify": "npm --workspace @egress/risk-engine run execution:testnet:verify",
+    "phase11:testnet": "forge build && node --import tsx scripts/phase11-testnet.ts",
+    "test:solidity": "forge test",
+    "fmt:solidity:check": "forge fmt --check",
+    "security:scan": "node scripts/public-secret-scan.mjs",
+    "verify:phase11-evidence": "node scripts/verify-phase11-evidence.mjs",
+    "verify:release": "npm run security:scan && npm run verify:phase11-evidence && npm run typecheck && npm run test:all && npm run build && npm run fmt:solidity:check"
+  },
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ]
+}

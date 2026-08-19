@@ -1,0 +1,40 @@
+{
+  "name": "@egress/risk-engine",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.test.json",
+    "test": "vitest run",
+    "test:database-privileges": "vitest run test/archive-database-privileges.integration.test.ts",
+    "ingest": "tsx src/cli/ingest.ts",
+    "replay": "tsx src/cli/replay.ts",
+    "live:poll": "tsx src/cli/live-poll.ts",
+    "db:migrate": "tsx src/cli/database-migrate.ts",
+    "execution:stage": "tsx src/cli/execution-stage.ts",
+    "execution:testnet:verify": "tsx src/cli/testnet-verify.ts",
+    "live:archive": "tsx src/cli/snapshot-archive.ts"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.1.0",
+    "ai": "^6.0.253",
+    "cheerio": "^1.1.2",
+    "viem": "^2.0.0",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.9.0",
+    "vitest": "^3.0.0"
+  }
+}

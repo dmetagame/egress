@@ -1,0 +1,1563 @@
+[
+  {
+    "revision": "A",
+    "status": "EVALUATED",
+    "event": {
+      "riskEventId": "risk_3169275b4af22b5b",
+      "mode": "REPLAY",
+      "createdAt": "2026-08-14T10:00:00.000Z",
+      "sourceRevisionIds": [
+        "rev_f9d9e257a7e5a2e3"
+      ],
+      "diffIds": [
+        "diff_8cd20e1129674070"
+      ],
+      "policy": {
+        "policyId": "policy_demo_xbeth_v1",
+        "policyVersion": 1,
+        "user": "0x1111111111111111111111111111111111111111",
+        "executor": "0x2222222222222222222222222222222222222222",
+        "chainId": 196,
+        "egressContract": "0x3333333333333333333333333333333333333333",
+        "approvedRiskAttestor": "0x19E7E376E7C213B7E7e7e46cc70A5dD086DAff2A",
+        "riskTrigger": "HIGH",
+        "minimumConfidence": 0.8,
+        "triggerHealthFactorWad": "1120000000000000000",
+        "minimumPostHealthFactorWad": "1150000000000000000",
+        "targetPostHealthFactorWad": "1200000000000000000",
+        "maximumRepaymentWei": "10000000000000000000",
+        "maximumCollateralWei": "11000000000000000000",
+        "maximumCollateralPercentageBps": 2500,
+        "maximumSlippageBps": 100,
+        "maximumPriceImpactBps": 100,
+        "maximumOraclePoolDeviationBps": 200,
+        "maximumFlashLoanPremiumBps": 5,
+        "cooldownSeconds": 3600,
+        "authorizationExpiresAt": "2026-08-15T10:00:00.000Z",
+        "intentTtlSeconds": 120,
+        "verdictMaxAgeSeconds": 300,
+        "marketMaxAgeSeconds": 30,
+        "maximumClockSkewSeconds": 15,
+        "automaticExecutionEnabled": true,
+        "approvedSourceIds": [
+          "okx-x-rwa-deposit-withdrawal"
+        ]
+      },
+      "policyRuntime": {
+        "evaluatedAt": "2026-08-14T10:00:00.000Z",
+        "lastExecutionAt": null,
+        "authorizationNonce": "65",
+        "revocationNonce": "0",
+        "nonceAlreadyUsed": false,
+        "executorPaused": false,
+        "userAuthorizationSignature": null,
+        "collateralAuthorizationAvailable": false
+      },
+      "analysis": {
+        "proposedRiskLevel": "NORMAL",
+        "summary": "1 evidence-backed risk-relevant claim found.",
+        "rationale": "The observed source changes do not establish a material exit impairment.",
+        "claims": [
+          {
+            "claimId": "claim_f71d7ebd774dc7da",
+            "claimType": "BACKING",
+            "subject": "XBETH",
+            "statement": "Each X-RWA, including xBETH, is fully backed by its corresponding underlying asset securely held in OKX custody.",
+            "previousValue": null,
+            "currentValue": "Each X-RWA, including xBETH, is fully backed by its corresponding underlying asset securely held in OKX custody.",
+            "changeKind": "ADDED",
+            "changeSummary": "Initial authoritative baseline was recorded.",
+            "materiality": "NORMAL",
+            "positionImpact": "No deterioration is evidenced by the initial baseline alone.",
+            "evidence": [
+              {
+                "evidenceId": "evidence_27530660fe0aed02",
+                "sourceId": "okx-x-rwa-deposit-withdrawal",
+                "sourceUrl": "https://www.okx.com/help/how-does-xasset-work",
+                "revisionId": "rev_f9d9e257a7e5a2e3",
+                "contentHash": "sha256:773ee111c5eb10b8d161555b15900166c769dead2684436fd8f8b2127195cc9d",
+                "side": "CURRENT",
+                "excerpt": "Each X-RWA, including xBETH, is fully backed by its corresponding underlying asset securely held in OKX custody.",
+                "location": {
+                  "section": "What is X-RWA?",
+                  "startLine": 4,
+                  "endLine": 4
+                }
+              }
+            ],
+            "confidence": 0.98
+          }
+        ],
+        "conflictingEvidence": false,
+        "conflictExplanation": null,
+        "confidence": 0.98
+      },
+      "verdict": {
+        "verdictId": "verdict_840557381694150b",
+        "riskEventId": "risk_3169275b4af22b5b",
+        "riskLevel": "NORMAL",
+        "material": false,
+        "trigger": "Initial authoritative baseline was recorded.",
+        "summary": "1 evidence-backed risk-relevant claim found.",
+        "rationale": "The observed source changes do not establish a material exit impairment.",
+        "sourceRevisionIds": [
+          "rev_f9d9e257a7e5a2e3"
+        ],
+        "diffIds": [
+          "diff_8cd20e1129674070"
+        ],
+        "claims": [
+          {
+            "claimId": "claim_f71d7ebd774dc7da",
+            "claimType": "BACKING",
+            "subject": "XBETH",
+            "statement": "Each X-RWA, including xBETH, is fully backed by its corresponding underlying asset securely held in OKX custody.",
+            "previousValue": null,
+            "currentValue": "Each X-RWA, including xBETH, is fully backed by its corresponding underlying asset securely held in OKX custody.",
+            "changeKind": "ADDED",
+            "changeSummary": "Initial authoritative baseline was recorded.",
+            "materiality": "NORMAL",
+            "positionImpact": "No deterioration is evidenced by the initial baseline alone.",
+            "evidence": [
+              {
+                "evidenceId": "evidence_27530660fe0aed02",
+                "sourceId": "okx-x-rwa-deposit-withdrawal",
+                "sourceUrl": "https://www.okx.com/help/how-does-xasset-work",
+                "revisionId": "rev_f9d9e257a7e5a2e3",
+                "contentHash": "sha256:773ee111c5eb10b8d161555b15900166c769dead2684436fd8f8b2127195cc9d",
+                "side": "CURRENT",
+                "excerpt": "Each X-RWA, including xBETH, is fully backed by its corresponding underlying asset securely held in OKX custody.",
+                "location": {
+                  "section": "What is X-RWA?",
+                  "startLine": 4,
+                  "endLine": 4
+                }
+              }
+            ],
+            "confidence": 0.98
+          }
+        ],
+        "evidenceValidation": {
+          "valid": true,
+          "validatedEvidenceIds": [
+            "evidence_27530660fe0aed02"
+          ],
+          "rejectedEvidenceIds": [],
+          "errors": [],
+          "warnings": []
+        },
+        "confidence": 0.98,
+        "issuedAt": "2026-08-14T10:00:00.000Z",
+        "expiresAt": "2026-08-14T10:05:00.000Z",
+        "analyzer": {
+          "analyzer": "DETERMINISTIC_REPLAY",
+          "provider": "egress",
+          "model": "evidence-pattern-reference-analyzer",
+          "modelVersion": "1",
+          "promptVersion": "not-applicable",
+          "analyzedAt": "2026-08-14T10:00:00.000Z"
+        }
+      },
+      "attestation": {
+        "attestationId": "attestation_d4b867f8700d991d",
+        "verdictId": "verdict_840557381694150b",
+        "riskEventId": "risk_3169275b4af22b5b",
+        "policyId": "policy_demo_xbeth_v1",
+        "chainId": 196,
+        "verifyingContract": "0x3333333333333333333333333333333333333333",
+        "signer": "0x19E7E376E7C213B7E7e7e46cc70A5dD086DAff2A",
+        "verdictHash": "0xefa56094977aba894d29d6bd032552d9bcce8eabef2482eeb88e6963cac50a90",
+        "evidenceHash": "0xf459889017e7798bce1fb660afa8fe52764401cc063ffdc95c4fb6a7fdfe56c0",
+        "signature": "0x2bbecf85da3e2073c12ae0310a55da803a1f77c5d752dfc350be43fa566461fd5f5e65c86a7dac685b6701e4f49abab433aadde009b9d5d3ad420c7f035310d41c",
+        "issuedAt": "2026-08-14T10:00:00.000Z",
+        "expiresAt": "2026-08-14T10:05:00.000Z"
+      },
+      "marketContext": {
+        "position": {
+          "chainId": 196,
+          "blockNumber": "67881241",
+          "observedAt": "2026-08-14T10:00:00.000Z",
+          "user": "0x1111111111111111111111111111111111111111",
+          "collateralToken": "0xAFeab3B85B6A56cF5F02317F0f7A23340eb983D7",
+          "debtToken": "0xE7B000003A45145decf8a28FC755aD5eC5EA025A",
+          "aToken": "0xe9e78053f1Ef084f8cD01dBE8ccE95c6b0944d32",
+          "variableDebtToken": "0xB756Fc7065369602f2cCb8356283E8b997fDfe2a",
+          "collateralBalanceWei": "50000000000000000000",
+          "debtBalanceWei": "44050000000000000000",
+          "totalCollateralBase": "150000000000",
+          "totalDebtBase": "132150000000",
+          "availableBorrowsBase": "0",
+          "liquidationThresholdBps": 9000,
+          "ltvBps": 8800,
+          "healthFactorWad": "1080000000000000000",
+          "xbEthPriceBase": "300000000000",
+          "xethPriceBase": "300000000000",
+          "singleMarketPosition": true,
+          "positionScopeReason": "Replay fixture contains only xBETH collateral and xETH debt.",
+          "dataFresh": true
+        },
+        "liquidity": {
+          "chainId": 196,
+          "blockNumber": "67881241",
+          "observedAt": "2026-08-14T10:00:00.000Z",
+          "pool": "0x84d4DbEebFf5F77c63F36bD0dCb18121Aa9aC8fc",
+          "tokenIn": "0xAFeab3B85B6A56cF5F02317F0f7A23340eb983D7",
+          "tokenOut": "0xE7B000003A45145decf8a28FC755aD5eC5EA025A",
+          "feeTier": 100,
+          "amountInWei": "8000000000000000000",
+          "expectedAmountOutWei": "8050000000000000000",
+          "oracleReferencePriceWad": "1000000000000000000",
+          "spotPriceWad": "1007000000000000000",
+          "executionPriceWad": "1006250000000000000",
+          "oraclePoolDeviationBps": 70,
+          "priceImpactBps": 8,
+          "estimatedSlippageBps": 8,
+          "activeLiquidity": "100000000000000000000000",
+          "poolTokenInBalanceWei": "500000000000000000000",
+          "poolTokenOutBalanceWei": "500000000000000000000",
+          "quoteGasEstimate": "180000",
+          "estimatedExecutionGas": "880000",
+          "gasPriceWei": "100000000",
+          "estimatedExecutionCostWei": "88000000000000",
+          "executable": true,
+          "failureReason": null
+        },
+        "plan": {
+          "repayAmountWei": "7900000000000000000",
+          "collateralAmountWei": "8000000000000000000",
+          "expectedSwapOutWei": "8050000000000000000",
+          "minimumSwapOutWei": "7969500000000000000",
+          "projectedPostHealthFactorWad": "1210000000000000000",
+          "flashLoanPremiumCeilingWei": "3950000000000000",
+          "executable": true,
+          "failureReason": null
+        }
+      },
+      "intent": {
+        "intentId": "intent_48387ab739abdd47",
+        "riskEventId": "risk_3169275b4af22b5b",
+        "riskVerdictId": "verdict_840557381694150b",
+        "policyId": "policy_demo_xbeth_v1",
+        "allowed": false,
+        "autoExecutionEligible": false,
+        "requiresUserSignature": false,
+        "status": "REJECTED",
+        "reasons": [
+          "risk_threshold: Risk is below the user's trigger or evidence is insufficient."
+        ],
+        "checks": [
+          {
+            "check": "risk_attestation",
+            "passed": true,
+            "actual": "valid",
+            "required": "0x19E7E376E7C213B7E7e7e46cc70A5dD086DAff2A",
+            "reason": "Risk attestation signature is valid."
+          },
+          {
+            "check": "evidence_valid",
+            "passed": true,
+            "actual": "true",
+            "required": "true",
+            "reason": "All cited evidence resolves to exact source revision excerpts."
+          },
+          {
+            "check": "approved_sources",
+            "passed": true,
+            "actual": "okx-x-rwa-deposit-withdrawal",
+            "required": "okx-x-rwa-deposit-withdrawal",
+            "reason": "All evidence comes from policy-approved sources."
+          },
+          {
+            "check": "verdict_expiry",
+            "passed": true,
+            "actual": "2026-08-14T10:00:00.000Z",
+            "required": "2026-08-14T10:05:00.000Z",
+            "reason": "Verdict is unexpired."
+          },
+          {
+            "check": "verdict_freshness",
+            "passed": true,
+            "actual": "0s",
+            "required": "-15s..300s",
+            "reason": "Risk interpretation must be recent and cannot be implausibly future-dated."
+          },
+          {
+            "check": "risk_threshold",
+            "passed": false,
+            "actual": "NORMAL",
+            "required": ">=HIGH",
+            "reason": "Risk is below the user's trigger or evidence is insufficient."
+          },
+          {
+            "check": "confidence",
+            "passed": true,
+            "actual": "0.98",
+            "required": ">=0.8",
+            "reason": "Low-confidence model output cannot authorize action."
+          },
+          {
+            "check": "policy_authorization_expiry",
+            "passed": true,
+            "actual": "2026-08-14T10:00:00.000Z",
+            "required": "2026-08-15T10:00:00.000Z",
+            "reason": "The user's protection policy must still be active."
+          },
+          {
+            "check": "cooldown",
+            "passed": true,
+            "actual": "never",
+            "required": "3600s",
+            "reason": "Cooldown has elapsed."
+          },
+          {
+            "check": "nonce_unused",
+            "passed": true,
+            "actual": "65",
+            "required": "unused",
+            "reason": "The executor contract also enforces nonce replay protection."
+          },
+          {
+            "check": "executor_unpaused",
+            "passed": true,
+            "actual": "false",
+            "required": "false",
+            "reason": "The onchain emergency pause is an absolute execution stop."
+          },
+          {
+            "check": "market_freshness",
+            "passed": true,
+            "actual": "0s",
+            "required": "<=30s",
+            "reason": "Position and liquidity data must be recent."
+          },
+          {
+            "check": "market_identity",
+            "passed": true,
+            "actual": "0x1111111111111111111111111111111111111111@196:67881241",
+            "required": "0x1111111111111111111111111111111111111111@196:same-block",
+            "reason": "All deterministic reads must describe the authorized user on one block."
+          },
+          {
+            "check": "market_assets",
+            "passed": true,
+            "actual": "0xAFeab3B85B6A56cF5F02317F0f7A23340eb983D7->0xE7B000003A45145decf8a28FC755aD5eC5EA025A",
+            "required": "0xAFeab3B85B6A56cF5F02317F0f7A23340eb983D7->0xE7B000003A45145decf8a28FC755aD5eC5EA025A",
+            "reason": "The executable quote must sell the configured collateral into the configured debt asset."
+          },
+          {
+            "check": "single_market_scope",
+            "passed": true,
+            "actual": "Replay fixture contains only xBETH collateral and xETH debt.",
+            "required": "xBETH collateral + xETH variable debt only",
+            "reason": "Egress refuses mixed Aave accounts because its projection is single-market."
+          },
+          {
+            "check": "health_factor_trigger",
+            "passed": true,
+            "actual": "1080000000000000000",
+            "required": "<=1120000000000000000",
+            "reason": "High RWA risk alone does not force deleveraging a healthy position."
+          },
+          {
+            "check": "liquidity_executable",
+            "passed": true,
+            "actual": "executable",
+            "required": "executable",
+            "reason": "A pool existing is not proof that the bounded exit can execute."
+          },
+          {
+            "check": "slippage",
+            "passed": true,
+            "actual": "8bps",
+            "required": "<=100bps",
+            "reason": "Expected slippage must remain within the user's limit."
+          },
+          {
+            "check": "price_impact",
+            "passed": true,
+            "actual": "8bps",
+            "required": "<=100bps",
+            "reason": "Price impact is independently capped."
+          },
+          {
+            "check": "oracle_pool_deviation",
+            "passed": true,
+            "actual": "70bps",
+            "required": "<=200bps",
+            "reason": "The Uniswap spot price must remain close to the independent Aave oracle ratio."
+          },
+          {
+            "check": "plan_quote_consistency",
+            "passed": true,
+            "actual": "8000000000000000000:8050000000000000000:7969500000000000000",
+            "required": "8000000000000000000:8050000000000000000:0<min<=expected",
+            "reason": "The bounded plan must be derived from the same liquidity quote."
+          },
+          {
+            "check": "repayment_cap",
+            "passed": true,
+            "actual": "7900000000000000000",
+            "required": "<=10000000000000000000",
+            "reason": "Repayment is bounded by policy and current debt."
+          },
+          {
+            "check": "flash_loan_coverage",
+            "passed": true,
+            "actual": "7969500000000000000 minOut / 3950000000000000 premium",
+            "required": ">=repay+3950000000000000 with matching premium ceiling",
+            "reason": "The signed minimum output must atomically cover repayment plus the full permitted premium."
+          },
+          {
+            "check": "collateral_cap",
+            "passed": true,
+            "actual": "8000000000000000000",
+            "required": "<=min(11000000000000000000,12500000000000000000)",
+            "reason": "Collateral sold is bounded by absolute and percentage caps."
+          },
+          {
+            "check": "post_health_factor",
+            "passed": true,
+            "actual": "1210000000000000000",
+            "required": ">=1150000000000000000",
+            "reason": "The execution contract independently enforces this signed floor."
+          },
+          {
+            "check": "user_authorization",
+            "passed": true,
+            "actual": "missing",
+            "required": "not-applicable",
+            "reason": "No permitted action exists to sign."
+          },
+          {
+            "check": "collateral_authorization",
+            "passed": true,
+            "actual": "false",
+            "required": "not-applicable",
+            "reason": "Execution also requires an exact aXbETH permit or pre-existing bounded allowance."
+          }
+        ],
+        "generatedAt": "2026-08-14T10:00:00.000Z",
+        "expiresAt": "2026-08-14T10:02:00.000Z",
+        "chainId": 196,
+        "egressContract": "0x3333333333333333333333333333333333333333",
+        "authorization": null,
+        "intentHash": "0x0b859a4e43e7d90a578dc34f4281152dbaa17b5efb07670bf5bd8cf27586a4f6"
+      },
+      "executionResult": {
+        "status": "NOT_SUBMITTED",
+        "transactionHash": null,
+        "blockNumber": null,
+        "gasUsed": null,
+        "observedAt": "2026-08-14T10:00:00.000Z",
+        "message": "Automatic live execution is disabled in the risk-engine milestone.",
+        "deleveraged": null
+      }
+    },
+    "message": "The source change was evaluated and no executable intent was authorized."
+  },
+  {
+    "revision": "B",
+    "status": "EVALUATED",
+    "event": {
+      "riskEventId": "risk_57ad0684e4766d1b",
+      "mode": "REPLAY",
+      "createdAt": "2026-08-14T10:00:00.000Z",
+      "sourceRevisionIds": [
+        "rev_c78482a09f2c5058"
+      ],
+      "diffIds": [
+        "diff_3cf71a815dfa49ce"
+      ],
+      "policy": {
+        "policyId": "policy_demo_xbeth_v1",
+        "policyVersion": 1,
+        "user": "0x1111111111111111111111111111111111111111",
+        "executor": "0x2222222222222222222222222222222222222222",
+        "chainId": 196,
+        "egressContract": "0x3333333333333333333333333333333333333333",
+        "approvedRiskAttestor": "0x19E7E376E7C213B7E7e7e46cc70A5dD086DAff2A",
+        "riskTrigger": "HIGH",
+        "minimumConfidence": 0.8,
+        "triggerHealthFactorWad": "1120000000000000000",
+        "minimumPostHealthFactorWad": "1150000000000000000",
+        "targetPostHealthFactorWad": "1200000000000000000",
+        "maximumRepaymentWei": "10000000000000000000",
+        "maximumCollateralWei": "11000000000000000000",
+        "maximumCollateralPercentageBps": 2500,
+        "maximumSlippageBps": 100,
+        "maximumPriceImpactBps": 100,
+        "maximumOraclePoolDeviationBps": 200,
+        "maximumFlashLoanPremiumBps": 5,
+        "cooldownSeconds": 3600,
+        "authorizationExpiresAt": "2026-08-15T10:00:00.000Z",
+        "intentTtlSeconds": 120,
+        "verdictMaxAgeSeconds": 300,
+        "marketMaxAgeSeconds": 30,
+        "maximumClockSkewSeconds": 15,
+        "automaticExecutionEnabled": true,
+        "approvedSourceIds": [
+          "okx-x-rwa-deposit-withdrawal"
+        ]
+      },
+      "policyRuntime": {
+        "evaluatedAt": "2026-08-14T10:00:00.000Z",
+        "lastExecutionAt": null,
+        "authorizationNonce": "66",
+        "revocationNonce": "0",
+        "nonceAlreadyUsed": false,
+        "executorPaused": false,
+        "userAuthorizationSignature": null,
+        "collateralAuthorizationAvailable": false
+      },
+      "analysis": {
+        "proposedRiskLevel": "MEDIUM",
+        "summary": "1 evidence-backed risk-relevant claim found.",
+        "rationale": "The observed source changes do not establish a material exit impairment.",
+        "claims": [
+          {
+            "claimId": "claim_3a23556d74fbe843",
+            "claimType": "DELAY",
+            "subject": "X_RWA",
+            "statement": "A scheduled maintenance window may create a temporary processing delay of up to two hours.",
+            "previousValue": null,
+            "currentValue": "A scheduled maintenance window may create a temporary processing delay of up to two hours.",
+            "changeKind": "ADDED",
+            "changeSummary": "A new condition was added.",
+            "materiality": "MEDIUM",
+            "positionImpact": "The changed condition warrants monitoring but does not itself prove exit impairment.",
+            "evidence": [
+              {
+                "evidenceId": "evidence_9a6970f216feffb3",
+                "sourceId": "okx-x-rwa-deposit-withdrawal",
+                "sourceUrl": "https://www.okx.com/help/how-does-xasset-work",
+                "revisionId": "rev_c78482a09f2c5058",
+                "contentHash": "sha256:829ed6eb4a07b65bc13d18f4da22f45b92e99ec75a2455608643c253667be767",
+                "side": "CURRENT",
+                "excerpt": "A scheduled maintenance window may create a temporary processing delay of up to two hours.",
+                "location": {
+                  "section": "Deposit and withdrawal",
+                  "startLine": 8,
+                  "endLine": 8
+                }
+              }
+            ],
+            "confidence": 0.94
+          }
+        ],
+        "conflictingEvidence": false,
+        "conflictExplanation": null,
+        "confidence": 0.94
+      },
+      "verdict": {
+        "verdictId": "verdict_7189feba59e35273",
+        "riskEventId": "risk_57ad0684e4766d1b",
+        "riskLevel": "MEDIUM",
+        "material": false,
+        "trigger": "A new condition was added.",
+        "summary": "1 evidence-backed risk-relevant claim found.",
+        "rationale": "The observed source changes do not establish a material exit impairment.",
+        "sourceRevisionIds": [
+          "rev_c78482a09f2c5058"
+        ],
+        "diffIds": [
+          "diff_3cf71a815dfa49ce"
+        ],
+        "claims": [
+          {
+            "claimId": "claim_3a23556d74fbe843",
+            "claimType": "DELAY",
+            "subject": "X_RWA",
+            "statement": "A scheduled maintenance window may create a temporary processing delay of up to two hours.",
+            "previousValue": null,
+            "currentValue": "A scheduled maintenance window may create a temporary processing delay of up to two hours.",
+            "changeKind": "ADDED",
+            "changeSummary": "A new condition was added.",
+            "materiality": "MEDIUM",
+            "positionImpact": "The changed condition warrants monitoring but does not itself prove exit impairment.",
+            "evidence": [
+              {
+                "evidenceId": "evidence_9a6970f216feffb3",
+                "sourceId": "okx-x-rwa-deposit-withdrawal",
+                "sourceUrl": "https://www.okx.com/help/how-does-xasset-work",
+                "revisionId": "rev_c78482a09f2c5058",
+                "contentHash": "sha256:829ed6eb4a07b65bc13d18f4da22f45b92e99ec75a2455608643c253667be767",
+                "side": "CURRENT",
+                "excerpt": "A scheduled maintenance window may create a temporary processing delay of up to two hours.",
+                "location": {
+                  "section": "Deposit and withdrawal",
+                  "startLine": 8,
+                  "endLine": 8
+                }
+              }
+            ],
+            "confidence": 0.94
+          }
+        ],
+        "evidenceValidation": {
+          "valid": true,
+          "validatedEvidenceIds": [
+            "evidence_9a6970f216feffb3"
+          ],
+          "rejectedEvidenceIds": [],
+          "errors": [],
+          "warnings": []
+        },
+        "confidence": 0.94,
+        "issuedAt": "2026-08-14T10:00:00.000Z",
+        "expiresAt": "2026-08-14T10:05:00.000Z",
+        "analyzer": {
+          "analyzer": "DETERMINISTIC_REPLAY",
+          "provider": "egress",
+          "model": "evidence-pattern-reference-analyzer",
+          "modelVersion": "1",
+          "promptVersion": "not-applicable",
+          "analyzedAt": "2026-08-14T10:00:00.000Z"
+        }
+      },
+      "attestation": {
+        "attestationId": "attestation_01d7309baf5311db",
+        "verdictId": "verdict_7189feba59e35273",
+        "riskEventId": "risk_57ad0684e4766d1b",
+        "policyId": "policy_demo_xbeth_v1",
+        "chainId": 196,
+        "verifyingContract": "0x3333333333333333333333333333333333333333",
+        "signer": "0x19E7E376E7C213B7E7e7e46cc70A5dD086DAff2A",
+        "verdictHash": "0x18bb2904c03ca440ddd229b95e67200c1ac00463aa65e92259f240cc3578929a",
+        "evidenceHash": "0xa9c3a1fd41688e043810c0791ec026147e31c6214bc8795875191bd26c8cdc86",
+        "signature": "0x1846e6ba62548ea2fa310ed02327336a8f5640b8c19e64cf45860db5e7e809c24b139bc155d31a72989f68d660ddd21aa280a3716c15730c305157cc75b4bca11c",
+        "issuedAt": "2026-08-14T10:00:00.000Z",
+        "expiresAt": "2026-08-14T10:05:00.000Z"
+      },
+      "marketContext": {
+        "position": {
+          "chainId": 196,
+          "blockNumber": "67881241",
+          "observedAt": "2026-08-14T10:00:00.000Z",
+          "user": "0x1111111111111111111111111111111111111111",
+          "collateralToken": "0xAFeab3B85B6A56cF5F02317F0f7A23340eb983D7",
+          "debtToken": "0xE7B000003A45145decf8a28FC755aD5eC5EA025A",
+          "aToken": "0xe9e78053f1Ef084f8cD01dBE8ccE95c6b0944d32",
+          "variableDebtToken": "0xB756Fc7065369602f2cCb8356283E8b997fDfe2a",
+          "collateralBalanceWei": "50000000000000000000",
+          "debtBalanceWei": "44050000000000000000",
+          "totalCollateralBase": "150000000000",
+          "totalDebtBase": "132150000000",
+          "availableBorrowsBase": "0",
+          "liquidationThresholdBps": 9000,
+          "ltvBps": 8800,
+          "healthFactorWad": "1080000000000000000",
+          "xbEthPriceBase": "300000000000",
+          "xethPriceBase": "300000000000",
+          "singleMarketPosition": true,
+          "positionScopeReason": "Replay fixture contains only xBETH collateral and xETH debt.",
+          "dataFresh": true
+        },
+        "liquidity": {
+          "chainId": 196,
+          "blockNumber": "67881241",
+          "observedAt": "2026-08-14T10:00:00.000Z",
+          "pool": "0x84d4DbEebFf5F77c63F36bD0dCb18121Aa9aC8fc",
+          "tokenIn": "0xAFeab3B85B6A56cF5F02317F0f7A23340eb983D7",
+          "tokenOut": "0xE7B000003A45145decf8a28FC755aD5eC5EA025A",
+          "feeTier": 100,
+          "amountInWei": "8000000000000000000",
+          "expectedAmountOutWei": "8050000000000000000",
+          "oracleReferencePriceWad": "1000000000000000000",
+          "spotPriceWad": "1007000000000000000",
+          "executionPriceWad": "1006250000000000000",
+          "oraclePoolDeviationBps": 70,
+          "priceImpactBps": 8,
+          "estimatedSlippageBps": 8,
+          "activeLiquidity": "100000000000000000000000",
+          "poolTokenInBalanceWei": "500000000000000000000",
+          "poolTokenOutBalanceWei": "500000000000000000000",
+          "quoteGasEstimate": "180000",
+          "estimatedExecutionGas": "880000",
+          "gasPriceWei": "100000000",
+          "estimatedExecutionCostWei": "88000000000000",
+          "executable": true,
+          "failureReason": null
+        },
+        "plan": {
+          "repayAmountWei": "7900000000000000000",
+          "collateralAmountWei": "8000000000000000000",
+          "expectedSwapOutWei": "8050000000000000000",
+          "minimumSwapOutWei": "7969500000000000000",
+          "projectedPostHealthFactorWad": "1210000000000000000",
+          "flashLoanPremiumCeilingWei": "3950000000000000",
+          "executable": true,
+          "failureReason": null
+        }
+      },
+      "intent": {
+        "intentId": "intent_a0ddbd24f8373ea4",
+        "riskEventId": "risk_57ad0684e4766d1b",
+        "riskVerdictId": "verdict_7189feba59e35273",
+        "policyId": "policy_demo_xbeth_v1",
+        "allowed": false,
+        "autoExecutionEligible": false,
+        "requiresUserSignature": false,
+        "status": "REJECTED",
+        "reasons": [
+          "risk_threshold: Risk is below the user's trigger or evidence is insufficient."
+        ],
+        "checks": [
+          {
+            "check": "risk_attestation",
+            "passed": true,
+            "actual": "valid",
+            "required": "0x19E7E376E7C213B7E7e7e46cc70A5dD086DAff2A",
+            "reason": "Risk attestation signature is valid."
+          },
+          {
+            "check": "evidence_valid",
+            "passed": true,
+            "actual": "true",
+            "required": "true",
+            "reason": "All cited evidence resolves to exact source revision excerpts."
+          },
+          {
+            "check": "approved_sources",
+            "passed": true,
+            "actual": "okx-x-rwa-deposit-withdrawal",
+            "required": "okx-x-rwa-deposit-withdrawal",
+            "reason": "All evidence comes from policy-approved sources."
+          },
+          {
+            "check": "verdict_expiry",
+            "passed": true,
+            "actual": "2026-08-14T10:00:00.000Z",
+            "required": "2026-08-14T10:05:00.000Z",
+            "reason": "Verdict is unexpired."
+          },
+          {
+            "check": "verdict_freshness",
+            "passed": true,
+            "actual": "0s",
+            "required": "-15s..300s",
+            "reason": "Risk interpretation must be recent and cannot be implausibly future-dated."
+          },
+          {
+            "check": "risk_threshold",
+            "passed": false,
+            "actual": "MEDIUM",
+            "required": ">=HIGH",
+            "reason": "Risk is below the user's trigger or evidence is insufficient."
+          },
+          {
+            "check": "confidence",
+            "passed": true,
+            "actual": "0.94",
+            "required": ">=0.8",
+            "reason": "Low-confidence model output cannot authorize action."
+          },
+          {
+            "check": "policy_authorization_expiry",
+            "passed": true,
+            "actual": "2026-08-14T10:00:00.000Z",
+            "required": "2026-08-15T10:00:00.000Z",
+            "reason": "The user's protection policy must still be active."
+          },
+          {
+            "check": "cooldown",
+            "passed": true,
+            "actual": "never",
+            "required": "3600s",
+            "reason": "Cooldown has elapsed."
+          },
+          {
+            "check": "nonce_unused",
+            "passed": true,
+            "actual": "66",
+            "required": "unused",
+            "reason": "The executor contract also enforces nonce replay protection."
+          },
+          {
+            "check": "executor_unpaused",
+            "passed": true,
+            "actual": "false",
+            "required": "false",
+            "reason": "The onchain emergency pause is an absolute execution stop."
+          },
+          {
+            "check": "market_freshness",
+            "passed": true,
+            "actual": "0s",
+            "required": "<=30s",
+            "reason": "Position and liquidity data must be recent."
+          },
+          {
+            "check": "market_identity",
+            "passed": true,
+            "actual": "0x1111111111111111111111111111111111111111@196:67881241",
+            "required": "0x1111111111111111111111111111111111111111@196:same-block",
+            "reason": "All deterministic reads must describe the authorized user on one block."
+          },
+          {
+            "check": "market_assets",
+            "passed": true,
+            "actual": "0xAFeab3B85B6A56cF5F02317F0f7A23340eb983D7->0xE7B000003A45145decf8a28FC755aD5eC5EA025A",
+            "required": "0xAFeab3B85B6A56cF5F02317F0f7A23340eb983D7->0xE7B000003A45145decf8a28FC755aD5eC5EA025A",
+            "reason": "The executable quote must sell the configured collateral into the configured debt asset."
+          },
+          {
+            "check": "single_market_scope",
+            "passed": true,
+            "actual": "Replay fixture contains only xBETH collateral and xETH debt.",
+            "required": "xBETH collateral + xETH variable debt only",
+            "reason": "Egress refuses mixed Aave accounts because its projection is single-market."
+          },
+          {
+            "check": "health_factor_trigger",
+            "passed": true,
+            "actual": "1080000000000000000",
+            "required": "<=1120000000000000000",
+            "reason": "High RWA risk alone does not force deleveraging a healthy position."
+          },
+          {
+            "check": "liquidity_executable",
+            "passed": true,
+            "actual": "executable",
+            "required": "executable",
+            "reason": "A pool existing is not proof that the bounded exit can execute."
+          },
+          {
+            "check": "slippage",
+            "passed": true,
+            "actual": "8bps",
+            "required": "<=100bps",
+            "reason": "Expected slippage must remain within the user's limit."
+          },
+          {
+            "check": "price_impact",
+            "passed": true,
+            "actual": "8bps",
+            "required": "<=100bps",
+            "reason": "Price impact is independently capped."
+          },
+          {
+            "check": "oracle_pool_deviation",
+            "passed": true,
+            "actual": "70bps",
+            "required": "<=200bps",
+            "reason": "The Uniswap spot price must remain close to the independent Aave oracle ratio."
+          },
+          {
+            "check": "plan_quote_consistency",
+            "passed": true,
+            "actual": "8000000000000000000:8050000000000000000:7969500000000000000",
+            "required": "8000000000000000000:8050000000000000000:0<min<=expected",
+            "reason": "The bounded plan must be derived from the same liquidity quote."
+          },
+          {
+            "check": "repayment_cap",
+            "passed": true,
+            "actual": "7900000000000000000",
+            "required": "<=10000000000000000000",
+            "reason": "Repayment is bounded by policy and current debt."
+          },
+          {
+            "check": "flash_loan_coverage",
+            "passed": true,
+            "actual": "7969500000000000000 minOut / 3950000000000000 premium",
+            "required": ">=repay+3950000000000000 with matching premium ceiling",
+            "reason": "The signed minimum output must atomically cover repayment plus the full permitted premium."
+          },
+          {
+            "check": "collateral_cap",
+            "passed": true,
+            "actual": "8000000000000000000",
+            "required": "<=min(11000000000000000000,12500000000000000000)",
+            "reason": "Collateral sold is bounded by absolute and percentage caps."
+          },
+          {
+            "check": "post_health_factor",
+            "passed": true,
+            "actual": "1210000000000000000",
+            "required": ">=1150000000000000000",
+            "reason": "The execution contract independently enforces this signed floor."
+          },
+          {
+            "check": "user_authorization",
+            "passed": true,
+            "actual": "missing",
+            "required": "not-applicable",
+            "reason": "No permitted action exists to sign."
+          },
+          {
+            "check": "collateral_authorization",
+            "passed": true,
+            "actual": "false",
+            "required": "not-applicable",
+            "reason": "Execution also requires an exact aXbETH permit or pre-existing bounded allowance."
+          }
+        ],
+        "generatedAt": "2026-08-14T10:00:00.000Z",
+        "expiresAt": "2026-08-14T10:02:00.000Z",
+        "chainId": 196,
+        "egressContract": "0x3333333333333333333333333333333333333333",
+        "authorization": null,
+        "intentHash": "0x14a12980d15aaa63d886dc13ac0d1cdb47a415351c249a01eaf6c5fe7a1857f9"
+      },
+      "executionResult": {
+        "status": "NOT_SUBMITTED",
+        "transactionHash": null,
+        "blockNumber": null,
+        "gasUsed": null,
+        "observedAt": "2026-08-14T10:00:00.000Z",
+        "message": "Automatic live execution is disabled in the risk-engine milestone.",
+        "deleveraged": null
+      }
+    },
+    "message": "The source change was evaluated and no executable intent was authorized."
+  },
+  {
+    "revision": "C",
+    "status": "EVALUATED",
+    "event": {
+      "riskEventId": "risk_10f75c04d865f1d9",
+      "mode": "REPLAY",
+      "createdAt": "2026-08-14T10:00:00.000Z",
+      "sourceRevisionIds": [
+        "rev_1b41a368607eb4b6",
+        "rev_c78482a09f2c5058"
+      ],
+      "diffIds": [
+        "diff_e0175fde413b9c7f"
+      ],
+      "policy": {
+        "policyId": "policy_demo_xbeth_v1",
+        "policyVersion": 1,
+        "user": "0x1111111111111111111111111111111111111111",
+        "executor": "0x2222222222222222222222222222222222222222",
+        "chainId": 196,
+        "egressContract": "0x3333333333333333333333333333333333333333",
+        "approvedRiskAttestor": "0x19E7E376E7C213B7E7e7e46cc70A5dD086DAff2A",
+        "riskTrigger": "HIGH",
+        "minimumConfidence": 0.8,
+        "triggerHealthFactorWad": "1120000000000000000",
+        "minimumPostHealthFactorWad": "1150000000000000000",
+        "targetPostHealthFactorWad": "1200000000000000000",
+        "maximumRepaymentWei": "10000000000000000000",
+        "maximumCollateralWei": "11000000000000000000",
+        "maximumCollateralPercentageBps": 2500,
+        "maximumSlippageBps": 100,
+        "maximumPriceImpactBps": 100,
+        "maximumOraclePoolDeviationBps": 200,
+        "maximumFlashLoanPremiumBps": 5,
+        "cooldownSeconds": 3600,
+        "authorizationExpiresAt": "2026-08-15T10:00:00.000Z",
+        "intentTtlSeconds": 120,
+        "verdictMaxAgeSeconds": 300,
+        "marketMaxAgeSeconds": 30,
+        "maximumClockSkewSeconds": 15,
+        "automaticExecutionEnabled": true,
+        "approvedSourceIds": [
+          "okx-x-rwa-deposit-withdrawal"
+        ]
+      },
+      "policyRuntime": {
+        "evaluatedAt": "2026-08-14T10:00:00.000Z",
+        "lastExecutionAt": null,
+        "authorizationNonce": "67",
+        "revocationNonce": "0",
+        "nonceAlreadyUsed": false,
+        "executorPaused": false,
+        "userAuthorizationSignature": null,
+        "collateralAuthorizationAvailable": false
+      },
+      "analysis": {
+        "proposedRiskLevel": "HIGH",
+        "summary": "3 evidence-backed risk-relevant claims found.",
+        "rationale": "The changed source language explicitly deteriorates redemption, withdrawal, conversion, custody, or backing conditions.",
+        "claims": [
+          {
+            "claimId": "claim_d956592708b70e5b",
+            "claimType": "BACKING",
+            "subject": "X_RWA",
+            "statement": "When eligible X-RWA is deposited to an OKX Exchange account, conversion to the corresponding underlying asset is subject to reserve availability.",
+            "previousValue": "When eligible X-RWA is deposited to an OKX Exchange account, OKX burns the deposited token and credits the corresponding underlying eligible asset.",
+            "currentValue": "When eligible X-RWA is deposited to an OKX Exchange account, conversion to the corresponding underlying asset is subject to reserve availability.",
+            "changeKind": "MODIFIED",
+            "changeSummary": "Authoritative wording changed.",
+            "materiality": "HIGH",
+            "positionImpact": "The changed condition may impair timely exit from an xBETH-backed leveraged position.",
+            "evidence": [
+              {
+                "evidenceId": "evidence_5e2101d0778d259a",
+                "sourceId": "okx-x-rwa-deposit-withdrawal",
+                "sourceUrl": "https://www.okx.com/help/how-does-xasset-work",
+                "revisionId": "rev_c78482a09f2c5058",
+                "contentHash": "sha256:829ed6eb4a07b65bc13d18f4da22f45b92e99ec75a2455608643c253667be767",
+                "side": "PREVIOUS",
+                "excerpt": "When eligible X-RWA is deposited to an OKX Exchange account, OKX burns the deposited token and credits the corresponding underlying eligible asset.",
+                "location": {
+                  "section": "Deposit and withdrawal",
+                  "startLine": 6,
+                  "endLine": 6
+                }
+              },
+              {
+                "evidenceId": "evidence_c3267c2cb0c2c326",
+                "sourceId": "okx-x-rwa-deposit-withdrawal",
+                "sourceUrl": "https://www.okx.com/help/how-does-xasset-work",
+                "revisionId": "rev_1b41a368607eb4b6",
+                "contentHash": "sha256:0044c082f5deedddb94155b9753512a3bbbbd2393e1e6d70ecdfc0e847688265",
+                "side": "CURRENT",
+                "excerpt": "When eligible X-RWA is deposited to an OKX Exchange account, conversion to the corresponding underlying asset is subject to reserve availability.",
+                "location": {
+                  "section": "Deposit and withdrawal",
+                  "startLine": 6,
+                  "endLine": 6
+                }
+              }
+            ],
+            "confidence": 0.94
+          },
+          {
+            "claimId": "claim_11664664c8520b16",
+            "claimType": "WITHDRAWAL",
+            "subject": "X_RWA",
+            "statement": "Redemptions may be suspended and withdrawal processing may face a material delay during stressed market conditions.",
+            "previousValue": "Eligible withdrawals are processed under normal operating conditions.",
+            "currentValue": "Redemptions may be suspended and withdrawal processing may face a material delay during stressed market conditions.",
+            "changeKind": "MODIFIED",
+            "changeSummary": "Authoritative wording changed.",
+            "materiality": "HIGH",
+            "positionImpact": "The changed condition may impair timely exit from an xBETH-backed leveraged position.",
+            "evidence": [
+              {
+                "evidenceId": "evidence_9c0320c6bfdcd851",
+                "sourceId": "okx-x-rwa-deposit-withdrawal",
+                "sourceUrl": "https://www.okx.com/help/how-does-xasset-work",
+                "revisionId": "rev_c78482a09f2c5058",
+                "contentHash": "sha256:829ed6eb4a07b65bc13d18f4da22f45b92e99ec75a2455608643c253667be767",
+                "side": "PREVIOUS",
+                "excerpt": "Eligible withdrawals are processed under normal operating conditions.",
+                "location": {
+                  "section": "Deposit and withdrawal",
+                  "startLine": 7,
+                  "endLine": 7
+                }
+              },
+              {
+                "evidenceId": "evidence_40c406a9a3b097b0",
+                "sourceId": "okx-x-rwa-deposit-withdrawal",
+                "sourceUrl": "https://www.okx.com/help/how-does-xasset-work",
+                "revisionId": "rev_1b41a368607eb4b6",
+                "contentHash": "sha256:0044c082f5deedddb94155b9753512a3bbbbd2393e1e6d70ecdfc0e847688265",
+                "side": "CURRENT",
+                "excerpt": "Redemptions may be suspended and withdrawal processing may face a material delay during stressed market conditions.",
+                "location": {
+                  "section": "Deposit and withdrawal",
+                  "startLine": 7,
+                  "endLine": 7
+                }
+              }
+            ],
+            "confidence": 0.94
+          },
+          {
+            "claimId": "claim_3f1f46655c1d44ab",
+            "claimType": "DELAY",
+            "subject": "X_RWA",
+            "statement": "A scheduled maintenance window may create a temporary processing delay of up to two hours.",
+            "previousValue": "A scheduled maintenance window may create a temporary processing delay of up to two hours.",
+            "currentValue": null,
+            "changeKind": "REMOVED",
+            "changeSummary": "A prior assurance was removed.",
+            "materiality": "LOW",
+            "positionImpact": "No material impairment is evidenced by this change.",
+            "evidence": [
+              {
+                "evidenceId": "evidence_cce056f4d834486b",
+                "sourceId": "okx-x-rwa-deposit-withdrawal",
+                "sourceUrl": "https://www.okx.com/help/how-does-xasset-work",
+                "revisionId": "rev_c78482a09f2c5058",
+                "contentHash": "sha256:829ed6eb4a07b65bc13d18f4da22f45b92e99ec75a2455608643c253667be767",
+                "side": "PREVIOUS",
+                "excerpt": "A scheduled maintenance window may create a temporary processing delay of up to two hours.",
+                "location": {
+                  "section": "Deposit and withdrawal",
+                  "startLine": 8,
+                  "endLine": 8
+                }
+              }
+            ],
+            "confidence": 0.94
+          }
+        ],
+        "conflictingEvidence": false,
+        "conflictExplanation": null,
+        "confidence": 0.94
+      },
+      "verdict": {
+        "verdictId": "verdict_7d08a7527b4e4b60",
+        "riskEventId": "risk_10f75c04d865f1d9",
+        "riskLevel": "HIGH",
+        "material": true,
+        "trigger": "Authoritative wording changed.",
+        "summary": "3 evidence-backed risk-relevant claims found.",
+        "rationale": "The changed source language explicitly deteriorates redemption, withdrawal, conversion, custody, or backing conditions.",
+        "sourceRevisionIds": [
+          "rev_1b41a368607eb4b6",
+          "rev_c78482a09f2c5058"
+        ],
+        "diffIds": [
+          "diff_e0175fde413b9c7f"
+        ],
+        "claims": [
+          {
+            "claimId": "claim_d956592708b70e5b",
+            "claimType": "BACKING",
+            "subject": "X_RWA",
+            "statement": "When eligible X-RWA is deposited to an OKX Exchange account, conversion to the corresponding underlying asset is subject to reserve availability.",
+            "previousValue": "When eligible X-RWA is deposited to an OKX Exchange account, OKX burns the deposited token and credits the corresponding underlying eligible asset.",
+            "currentValue": "When eligible X-RWA is deposited to an OKX Exchange account, conversion to the corresponding underlying asset is subject to reserve availability.",
+            "changeKind": "MODIFIED",
+            "changeSummary": "Authoritative wording changed.",
+            "materiality": "HIGH",
+            "positionImpact": "The changed condition may impair timely exit from an xBETH-backed leveraged position.",
+            "evidence": [
+              {
+                "evidenceId": "evidence_5e2101d0778d259a",
+                "sourceId": "okx-x-rwa-deposit-withdrawal",
+                "sourceUrl": "https://www.okx.com/help/how-does-xasset-work",
+                "revisionId": "rev_c78482a09f2c5058",
+                "contentHash": "sha256:829ed6eb4a07b65bc13d18f4da22f45b92e99ec75a2455608643c253667be767",
+                "side": "PREVIOUS",
+                "excerpt": "When eligible X-RWA is deposited to an OKX Exchange account, OKX burns the deposited token and credits the corresponding underlying eligible asset.",
+                "location": {
+                  "section": "Deposit and withdrawal",
+                  "startLine": 6,
+                  "endLine": 6
+                }
+              },
+              {
+                "evidenceId": "evidence_c3267c2cb0c2c326",
+                "sourceId": "okx-x-rwa-deposit-withdrawal",
+                "sourceUrl": "https://www.okx.com/help/how-does-xasset-work",
+                "revisionId": "rev_1b41a368607eb4b6",
+                "contentHash": "sha256:0044c082f5deedddb94155b9753512a3bbbbd2393e1e6d70ecdfc0e847688265",
+                "side": "CURRENT",
+                "excerpt": "When eligible X-RWA is deposited to an OKX Exchange account, conversion to the corresponding underlying asset is subject to reserve availability.",
+                "location": {
+                  "section": "Deposit and withdrawal",
+                  "startLine": 6,
+                  "endLine": 6
+                }
+              }
+            ],
+            "confidence": 0.94
+          },
+          {
+            "claimId": "claim_11664664c8520b16",
+            "claimType": "WITHDRAWAL",
+            "subject": "X_RWA",
+            "statement": "Redemptions may be suspended and withdrawal processing may face a material delay during stressed market conditions.",
+            "previousValue": "Eligible withdrawals are processed under normal operating conditions.",
+            "currentValue": "Redemptions may be suspended and withdrawal processing may face a material delay during stressed market conditions.",
+            "changeKind": "MODIFIED",
+            "changeSummary": "Authoritative wording changed.",
+            "materiality": "HIGH",
+            "positionImpact": "The changed condition may impair timely exit from an xBETH-backed leveraged position.",
+            "evidence": [
+              {
+                "evidenceId": "evidence_9c0320c6bfdcd851",
+                "sourceId": "okx-x-rwa-deposit-withdrawal",
+                "sourceUrl": "https://www.okx.com/help/how-does-xasset-work",
+                "revisionId": "rev_c78482a09f2c5058",
+                "contentHash": "sha256:829ed6eb4a07b65bc13d18f4da22f45b92e99ec75a2455608643c253667be767",
+                "side": "PREVIOUS",
+                "excerpt": "Eligible withdrawals are processed under normal operating conditions.",
+                "location": {
+                  "section": "Deposit and withdrawal",
+                  "startLine": 7,
+                  "endLine": 7
+                }
+              },
+              {
+                "evidenceId": "evidence_40c406a9a3b097b0",
+                "sourceId": "okx-x-rwa-deposit-withdrawal",
+                "sourceUrl": "https://www.okx.com/help/how-does-xasset-work",
+                "revisionId": "rev_1b41a368607eb4b6",
+                "contentHash": "sha256:0044c082f5deedddb94155b9753512a3bbbbd2393e1e6d70ecdfc0e847688265",
+                "side": "CURRENT",
+                "excerpt": "Redemptions may be suspended and withdrawal processing may face a material delay during stressed market conditions.",
+                "location": {
+                  "section": "Deposit and withdrawal",
+                  "startLine": 7,
+                  "endLine": 7
+                }
+              }
+            ],
+            "confidence": 0.94
+          },
+          {
+            "claimId": "claim_3f1f46655c1d44ab",
+            "claimType": "DELAY",
+            "subject": "X_RWA",
+            "statement": "A scheduled maintenance window may create a temporary processing delay of up to two hours.",
+            "previousValue": "A scheduled maintenance window may create a temporary processing delay of up to two hours.",
+            "currentValue": null,
+            "changeKind": "REMOVED",
+            "changeSummary": "A prior assurance was removed.",
+            "materiality": "LOW",
+            "positionImpact": "No material impairment is evidenced by this change.",
+            "evidence": [
+              {
+                "evidenceId": "evidence_cce056f4d834486b",
+                "sourceId": "okx-x-rwa-deposit-withdrawal",
+                "sourceUrl": "https://www.okx.com/help/how-does-xasset-work",
+                "revisionId": "rev_c78482a09f2c5058",
+                "contentHash": "sha256:829ed6eb4a07b65bc13d18f4da22f45b92e99ec75a2455608643c253667be767",
+                "side": "PREVIOUS",
+                "excerpt": "A scheduled maintenance window may create a temporary processing delay of up to two hours.",
+                "location": {
+                  "section": "Deposit and withdrawal",
+                  "startLine": 8,
+                  "endLine": 8
+                }
+              }
+            ],
+            "confidence": 0.94
+          }
+        ],
+        "evidenceValidation": {
+          "valid": true,
+          "validatedEvidenceIds": [
+            "evidence_5e2101d0778d259a",
+            "evidence_c3267c2cb0c2c326",
+            "evidence_9c0320c6bfdcd851",
+            "evidence_40c406a9a3b097b0",
+            "evidence_cce056f4d834486b"
+          ],
+          "rejectedEvidenceIds": [],
+          "errors": [],
+          "warnings": []
+        },
+        "confidence": 0.94,
+        "issuedAt": "2026-08-14T10:00:00.000Z",
+        "expiresAt": "2026-08-14T10:05:00.000Z",
+        "analyzer": {
+          "analyzer": "DETERMINISTIC_REPLAY",
+          "provider": "egress",
+          "model": "evidence-pattern-reference-analyzer",
+          "modelVersion": "1",
+          "promptVersion": "not-applicable",
+          "analyzedAt": "2026-08-14T10:00:00.000Z"
+        }
+      },
+      "attestation": {
+        "attestationId": "attestation_8a10a00baaae5f6d",
+        "verdictId": "verdict_7d08a7527b4e4b60",
+        "riskEventId": "risk_10f75c04d865f1d9",
+        "policyId": "policy_demo_xbeth_v1",
+        "chainId": 196,
+        "verifyingContract": "0x3333333333333333333333333333333333333333",
+        "signer": "0x19E7E376E7C213B7E7e7e46cc70A5dD086DAff2A",
+        "verdictHash": "0xde7adfb2263bedebc7ac92d7acb3a305f7889e006545db616fddc89584d8b01a",
+        "evidenceHash": "0x75426cceab2abe0818d5e9fe1290d05a20d886e892e61348958a0d77dd30c783",
+        "signature": "0xd36e8ebd40cdf99ea658f03132e73c0f4e57a37451e959fae480ada6a7f6f85c4afd6f67a78ae2750f65af4573ead9d85656d3eb39a9e15f50e9ef55659fd93e1c",
+        "issuedAt": "2026-08-14T10:00:00.000Z",
+        "expiresAt": "2026-08-14T10:05:00.000Z"
+      },
+      "marketContext": {
+        "position": {
+          "chainId": 196,
+          "blockNumber": "67881241",
+          "observedAt": "2026-08-14T10:00:00.000Z",
+          "user": "0x1111111111111111111111111111111111111111",
+          "collateralToken": "0xAFeab3B85B6A56cF5F02317F0f7A23340eb983D7",
+          "debtToken": "0xE7B000003A45145decf8a28FC755aD5eC5EA025A",
+          "aToken": "0xe9e78053f1Ef084f8cD01dBE8ccE95c6b0944d32",
+          "variableDebtToken": "0xB756Fc7065369602f2cCb8356283E8b997fDfe2a",
+          "collateralBalanceWei": "50000000000000000000",
+          "debtBalanceWei": "44050000000000000000",
+          "totalCollateralBase": "150000000000",
+          "totalDebtBase": "132150000000",
+          "availableBorrowsBase": "0",
+          "liquidationThresholdBps": 9000,
+          "ltvBps": 8800,
+          "healthFactorWad": "1080000000000000000",
+          "xbEthPriceBase": "300000000000",
+          "xethPriceBase": "300000000000",
+          "singleMarketPosition": true,
+          "positionScopeReason": "Replay fixture contains only xBETH collateral and xETH debt.",
+          "dataFresh": true
+        },
+        "liquidity": {
+          "chainId": 196,
+          "blockNumber": "67881241",
+          "observedAt": "2026-08-14T10:00:00.000Z",
+          "pool": "0x84d4DbEebFf5F77c63F36bD0dCb18121Aa9aC8fc",
+          "tokenIn": "0xAFeab3B85B6A56cF5F02317F0f7A23340eb983D7",
+          "tokenOut": "0xE7B000003A45145decf8a28FC755aD5eC5EA025A",
+          "feeTier": 100,
+          "amountInWei": "8000000000000000000",
+          "expectedAmountOutWei": "8050000000000000000",
+          "oracleReferencePriceWad": "1000000000000000000",
+          "spotPriceWad": "1007000000000000000",
+          "executionPriceWad": "1006250000000000000",
+          "oraclePoolDeviationBps": 70,
+          "priceImpactBps": 8,
+          "estimatedSlippageBps": 8,
+          "activeLiquidity": "100000000000000000000000",
+          "poolTokenInBalanceWei": "500000000000000000000",
+          "poolTokenOutBalanceWei": "500000000000000000000",
+          "quoteGasEstimate": "180000",
+          "estimatedExecutionGas": "880000",
+          "gasPriceWei": "100000000",
+          "estimatedExecutionCostWei": "88000000000000",
+          "executable": true,
+          "failureReason": null
+        },
+        "plan": {
+          "repayAmountWei": "7900000000000000000",
+          "collateralAmountWei": "8000000000000000000",
+          "expectedSwapOutWei": "8050000000000000000",
+          "minimumSwapOutWei": "7969500000000000000",
+          "projectedPostHealthFactorWad": "1210000000000000000",
+          "flashLoanPremiumCeilingWei": "3950000000000000",
+          "executable": true,
+          "failureReason": null
+        }
+      },
+      "intent": {
+        "intentId": "intent_4616287a39ee92a8",
+        "riskEventId": "risk_10f75c04d865f1d9",
+        "riskVerdictId": "verdict_7d08a7527b4e4b60",
+        "policyId": "policy_demo_xbeth_v1",
+        "allowed": true,
+        "autoExecutionEligible": false,
+        "requiresUserSignature": true,
+        "status": "AWAITING_USER_SIGNATURE",
+        "reasons": [
+          "Policy permits the bounded action, but user authorization is incomplete."
+        ],
+        "checks": [
+          {
+            "check": "risk_attestation",
+            "passed": true,
+            "actual": "valid",
+            "required": "0x19E7E376E7C213B7E7e7e46cc70A5dD086DAff2A",
+            "reason": "Risk attestation signature is valid."
+          },
+          {
+            "check": "evidence_valid",
+            "passed": true,
+            "actual": "true",
+            "required": "true",
+            "reason": "All cited evidence resolves to exact source revision excerpts."
+          },
+          {
+            "check": "approved_sources",
+            "passed": true,
+            "actual": "okx-x-rwa-deposit-withdrawal",
+            "required": "okx-x-rwa-deposit-withdrawal",
+            "reason": "All evidence comes from policy-approved sources."
+          },
+          {
+            "check": "verdict_expiry",
+            "passed": true,
+            "actual": "2026-08-14T10:00:00.000Z",
+            "required": "2026-08-14T10:05:00.000Z",
+            "reason": "Verdict is unexpired."
+          },
+          {
+            "check": "verdict_freshness",
+            "passed": true,
+            "actual": "0s",
+            "required": "-15s..300s",
+            "reason": "Risk interpretation must be recent and cannot be implausibly future-dated."
+          },
+          {
+            "check": "risk_threshold",
+            "passed": true,
+            "actual": "HIGH",
+            "required": ">=HIGH",
+            "reason": "Risk threshold is met."
+          },
+          {
+            "check": "confidence",
+            "passed": true,
+            "actual": "0.94",
+            "required": ">=0.8",
+            "reason": "Low-confidence model output cannot authorize action."
+          },
+          {
+            "check": "policy_authorization_expiry",
+            "passed": true,
+            "actual": "2026-08-14T10:00:00.000Z",
+            "required": "2026-08-15T10:00:00.000Z",
+            "reason": "The user's protection policy must still be active."
+          },
+          {
+            "check": "cooldown",
+            "passed": true,
+            "actual": "never",
+            "required": "3600s",
+            "reason": "Cooldown has elapsed."
+          },
+          {
+            "check": "nonce_unused",
+            "passed": true,
+            "actual": "67",
+            "required": "unused",
+            "reason": "The executor contract also enforces nonce replay protection."
+          },
+          {
+            "check": "executor_unpaused",
+            "passed": true,
+            "actual": "false",
+            "required": "false",
+            "reason": "The onchain emergency pause is an absolute execution stop."
+          },
+          {
+            "check": "market_freshness",
+            "passed": true,
+            "actual": "0s",
+            "required": "<=30s",
+            "reason": "Position and liquidity data must be recent."
+          },
+          {
+            "check": "market_identity",
+            "passed": true,
+            "actual": "0x1111111111111111111111111111111111111111@196:67881241",
+            "required": "0x1111111111111111111111111111111111111111@196:same-block",
+            "reason": "All deterministic reads must describe the authorized user on one block."
+          },
+          {
+            "check": "market_assets",
+            "passed": true,
+            "actual": "0xAFeab3B85B6A56cF5F02317F0f7A23340eb983D7->0xE7B000003A45145decf8a28FC755aD5eC5EA025A",
+            "required": "0xAFeab3B85B6A56cF5F02317F0f7A23340eb983D7->0xE7B000003A45145decf8a28FC755aD5eC5EA025A",
+            "reason": "The executable quote must sell the configured collateral into the configured debt asset."
+          },
+          {
+            "check": "single_market_scope",
+            "passed": true,
+            "actual": "Replay fixture contains only xBETH collateral and xETH debt.",
+            "required": "xBETH collateral + xETH variable debt only",
+            "reason": "Egress refuses mixed Aave accounts because its projection is single-market."
+          },
+          {
+            "check": "health_factor_trigger",
+            "passed": true,
+            "actual": "1080000000000000000",
+            "required": "<=1120000000000000000",
+            "reason": "High RWA risk alone does not force deleveraging a healthy position."
+          },
+          {
+            "check": "liquidity_executable",
+            "passed": true,
+            "actual": "executable",
+            "required": "executable",
+            "reason": "A pool existing is not proof that the bounded exit can execute."
+          },
+          {
+            "check": "slippage",
+            "passed": true,
+            "actual": "8bps",
+            "required": "<=100bps",
+            "reason": "Expected slippage must remain within the user's limit."
+          },
+          {
+            "check": "price_impact",
+            "passed": true,
+            "actual": "8bps",
+            "required": "<=100bps",
+            "reason": "Price impact is independently capped."
+          },
+          {
+            "check": "oracle_pool_deviation",
+            "passed": true,
+            "actual": "70bps",
+            "required": "<=200bps",
+            "reason": "The Uniswap spot price must remain close to the independent Aave oracle ratio."
+          },
+          {
+            "check": "plan_quote_consistency",
+            "passed": true,
+            "actual": "8000000000000000000:8050000000000000000:7969500000000000000",
+            "required": "8000000000000000000:8050000000000000000:0<min<=expected",
+            "reason": "The bounded plan must be derived from the same liquidity quote."
+          },
+          {
+            "check": "repayment_cap",
+            "passed": true,
+            "actual": "7900000000000000000",
+            "required": "<=10000000000000000000",
+            "reason": "Repayment is bounded by policy and current debt."
+          },
+          {
+            "check": "flash_loan_coverage",
+            "passed": true,
+            "actual": "7969500000000000000 minOut / 3950000000000000 premium",
+            "required": ">=repay+3950000000000000 with matching premium ceiling",
+            "reason": "The signed minimum output must atomically cover repayment plus the full permitted premium."
+          },
+          {
+            "check": "collateral_cap",
+            "passed": true,
+            "actual": "8000000000000000000",
+            "required": "<=min(11000000000000000000,12500000000000000000)",
+            "reason": "Collateral sold is bounded by absolute and percentage caps."
+          },
+          {
+            "check": "post_health_factor",
+            "passed": true,
+            "actual": "1210000000000000000",
+            "required": ">=1150000000000000000",
+            "reason": "The execution contract independently enforces this signed floor."
+          },
+          {
+            "check": "user_authorization",
+            "passed": false,
+            "actual": "missing",
+            "required": "valid EIP-712 signature",
+            "reason": "The user, not the AI or attestor, must sign the exact executor authorization."
+          },
+          {
+            "check": "collateral_authorization",
+            "passed": false,
+            "actual": "false",
+            "required": "permit or sufficient allowance",
+            "reason": "Execution also requires an exact aXbETH permit or pre-existing bounded allowance."
+          }
+        ],
+        "generatedAt": "2026-08-14T10:00:00.000Z",
+        "expiresAt": "2026-08-14T10:02:00.000Z",
+        "chainId": 196,
+        "egressContract": "0x3333333333333333333333333333333333333333",
+        "authorization": {
+          "user": "0x1111111111111111111111111111111111111111",
+          "executor": "0x2222222222222222222222222222222222222222",
+          "repayAmount": "7900000000000000000",
+          "collateralAmount": "8000000000000000000",
+          "maxRepayment": "10000000000000000000",
+          "maxCollateral": "11000000000000000000",
+          "expectedSwapOut": "8050000000000000000",
+          "minSwapOut": "7969500000000000000",
+          "maxSlippageBps": "100",
+          "maxFlashLoanPremiumBps": "5",
+          "minPostHealthFactor": "1150000000000000000",
+          "deadline": "1786701720",
+          "nonce": "67",
+          "revocationNonce": "0"
+        },
+        "intentHash": "0x928be2f848171a9b1d144c6d1795308de0be62475f6acf4cf9058b998984b892"
+      },
+      "executionResult": {
+        "status": "NOT_SUBMITTED",
+        "transactionHash": null,
+        "blockNumber": null,
+        "gasUsed": null,
+        "observedAt": "2026-08-14T10:00:00.000Z",
+        "message": "Automatic live execution is disabled in the risk-engine milestone.",
+        "deleveraged": null
+      }
+    },
+    "message": "A bounded execution intent was permitted; user authorization is still required."
+  }
+]

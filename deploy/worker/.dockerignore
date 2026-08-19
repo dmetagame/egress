@@ -1,0 +1,9 @@
+.env*
+.data
+.next
+dist
+node_modules
+deployments
+reports
+test
+**/*.log

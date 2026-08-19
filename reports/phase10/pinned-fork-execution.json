@@ -1,0 +1,88 @@
+{
+  "label": "EGRESS PHASE 10 PINNED X LAYER FORK EXECUTION",
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-16T20:49:56.483Z",
+  "status": "COMPLETE",
+  "environment": {
+    "mode": "FORK_WRITE",
+    "localRpc": "http://127.0.0.1:8545",
+    "upstreamRpcOrigin": "https://sly-newest-patron.xlayer-mainnet.quiknode.pro",
+    "chainId": 196,
+    "forkBlock": 67881241,
+    "forkBlockHash": "0x8ea9d6a28e1224f11ec8d9cadd5a60a27152cfc1ecbc4c52b3e6b4033beda2a9",
+    "liveMainnetExecution": "DISABLED"
+  },
+  "database": {
+    "databaseName": "egress_phase10",
+    "archiveRole": "egress_phase10_archive",
+    "workerRole": "egress_execution_worker",
+    "migrationVersion": 4,
+    "workerMissingPrivileges": [],
+    "workerForbiddenPrivileges": []
+  },
+  "snapshot": {
+    "snapshotHash": "0xabfbc8f2a437c79d9e5da3c2120316f6209c9b2f52866b76eaa7a56c0897eb9d",
+    "integrityHash": "0xd04fbfef2402a9a48c1f62efcca53495d91bb9448bc872997254cd8b46394e8f",
+    "archiveStatus": "COMPLETE",
+    "observedBlock": "67881248",
+    "blockHash": "0xc2fb7cb9eff62b488605e7865b73ee35e2a8811d18eadb7ebbd859ae0934db5e",
+    "riskClassification": "HIGH",
+    "inserted": true,
+    "observationInserted": true
+  },
+  "deterministicReplay": {
+    "intentHash": "0x56f39f659ec64277d0960e3e5f1bcf35fac4332c56aa9caa74bf376e08894d8f",
+    "simulationHash": "0xcbc98fead3d7f61af575dc8ef019bbe8e7d0046838eea53230175a0860ebde40",
+    "repeatedIntentMatched": true,
+    "repeatedSimulationMatched": true
+  },
+  "binding": {
+    "executionFingerprint": "0x8f269b1d71666eec242cbfcf60546f21deb31657697a8c1347e53ddc21557df4",
+    "transactionBinding": {
+      "schemaVersion": 1,
+      "chainId": 196,
+      "environment": "FORK_WRITE",
+      "contractAddress": "0x2de080e97b0cae9825375d31f5d0ed5751fdf16d",
+      "functionName": "executeAutonomous",
+      "functionSelector": "0x49b081a0",
+      "calldataHash": "0x8a29210a3c2eb36a9aa3c22f45c8f682d348e10bb917a7286a16c7e8e743f53f",
+      "contractRequestHash": "0x8d7afc111ce47827175c172510bbe06651b7acddef3760fd8743f5302d9cb25b",
+      "keeper": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+      "gas": null
+    },
+    "contractRequestHash": "0x8d7afc111ce47827175c172510bbe06651b7acddef3760fd8743f5302d9cb25b"
+  },
+  "execution": {
+    "transactionHash": "0xa15fa01d5ec3fb9479c3e2ef21f782166354898542e3ebeaf0ffa62b2fcecdb6",
+    "blockNumber": "67881249",
+    "gasUsed": "964157",
+    "debtBeforeWei": "44050000048785771290",
+    "debtAfterWei": "33234736714174524133",
+    "healthFactorBeforeWad": "1034610465364373705",
+    "healthFactorAfterWad": "1074999966335807348",
+    "debtRepaidWei": "10815264375374380863",
+    "collateralSoldWei": "10803443293768845935",
+    "swapOutputWei": "10929971724810169752",
+    "flashPremiumWei": "5407632187687191",
+    "surplusReturnedWei": "109299717248101698"
+  },
+  "idempotency": {
+    "concurrentDuplicateRejected": true,
+    "postExecutionReplayRejected": true,
+    "submitterCalls": 1,
+    "reservationId": "d85c68d5-d8f8-4084-9663-b0171c820d4a",
+    "submissionHash": "0x3f7a8c4824c2985501c89fb9536cd3e1bd04f2e3a99dce35571619604bb560ce"
+  },
+  "assertions": {
+    "archivedSnapshotVerified": true,
+    "sameBlockSnapshot": true,
+    "exactSimulationSubmissionBinding": true,
+    "debtDecreased": true,
+    "healthFactorImproved": true,
+    "noPostEventUserPermit": true,
+    "noExecutorResidue": true,
+    "canonicalHistoryUnchangedByWorker": true,
+    "okxRevisionHistoryUnchangedByWorker": true,
+    "liveMainnetExecutionDisabled": true
+  }
+}
