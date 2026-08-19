@@ -12,6 +12,7 @@
     "prebuild": "npm --workspace @egress/risk-engine run build",
     "build": "next build",
     "start": "next start",
+    "pretest": "npm --workspace @egress/risk-engine run build",
     "test": "vitest run",
     "test:e2e": "playwright test",
     "typecheck": "tsc --noEmit"
