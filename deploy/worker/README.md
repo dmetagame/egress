@@ -25,3 +25,8 @@ migration role before starting it. Use the web `GET /api/operations/health`
 endpoint for database, poller, RPC-head, indexed-through, and lag checks. A
 process supervisor must restart the worker and alert on missing successful poll
 events; run only one active poller until an external leader lease is added.
+
+The current observer address book is X Layer mainnet, chain `196`. The Phase 11
+chain-`1952` testnet RPC endpoints are reserved for historical deployment
+verification and cannot be used by this worker until a separately reviewed
+testnet protocol profile is implemented.

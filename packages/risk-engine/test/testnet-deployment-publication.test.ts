@@ -82,6 +82,40 @@ describe("Phase 11 manifest publication evidence", () => {
     })).toThrow(/source digests/i);
   });
 
+  it("matches immutable sources by repository identity across checkout paths", async () => {
+    const { journal, artifact, journalSha256, artifactSha256 } = await loadEvidence();
+    const relocatedJournalPath = "/home/runner/work/egress/egress/deployments/phase11/xlayer-testnet.json.journal.json";
+    const relocatedArtifactPath = "/home/runner/work/egress/egress/deployments/phase11/xlayer-testnet.json.journal.json.reconciliation.json";
+    const manifest = buildManifest(
+      journal,
+      artifact,
+      journalSha256,
+      artifactSha256,
+      relocatedJournalPath,
+      relocatedArtifactPath,
+    );
+
+    expect(() => verifyPhase11ManifestPublicationSources({
+      manifest,
+      journal,
+      artifact,
+      journalPath: relocatedJournalPath,
+      artifactPath: relocatedArtifactPath,
+      journalSha256,
+      artifactSha256,
+    })).not.toThrow();
+
+    expect(() => verifyPhase11ManifestPublicationSources({
+      manifest,
+      journal,
+      artifact,
+      journalPath: "/home/runner/work/egress/egress/deployments/phase11/wrong.json",
+      artifactPath: relocatedArtifactPath,
+      journalSha256,
+      artifactSha256,
+    })).toThrow(/path/i);
+  });
+
   it("verifies the serialized schema-v4 manifest independently", async () => {
     const { journal, artifact, journalSha256, artifactSha256 } = await loadEvidence();
     const manifest = buildManifest(journal, artifact, journalSha256, artifactSha256);
@@ -148,12 +182,14 @@ function buildManifest(
   artifact: ReturnType<typeof verifyPhase11ReconciliationArtifact>,
   journalSha256: `sha256:${string}`,
   artifactSha256: `sha256:${string}`,
+  journalPath = JOURNAL_PATH,
+  artifactPath = ARTIFACT_PATH,
 ): TestnetDeploymentManifest {
   return buildPhase11ManifestFromEvidence({
     journal,
     artifact,
-    journalPath: JOURNAL_PATH,
-    artifactPath: ARTIFACT_PATH,
+    journalPath,
+    artifactPath,
     journalSha256,
     artifactSha256,
     configuration: {

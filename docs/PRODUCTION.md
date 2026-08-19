@@ -3,6 +3,22 @@
 This runbook describes the supported read-only production topology. It does
 not provision infrastructure and does not authorize blockchain writes.
 
+## Current Release Gate
+
+The repository contains the web/API and the persistent observer implementation,
+but the public Vercel project is not a live-data deployment until PostgreSQL,
+the singleton observer, and a deliberately selected public observation account
+are provisioned. With those dependencies absent, the API must report
+`UNAVAILABLE` rather than reuse historical data.
+
+The current observer address book is X Layer mainnet, chain `196`. The Phase 11
+testnet endpoints (`https://testrpc.xlayer.tech/terigon` and
+`https://xlayertestrpc.okx.com/terigon`) are chain-`1952` infrastructure for
+read-only deployment evidence. Do not place them in the current live observer
+environment: the mainnet adapter will reject the chain mismatch. Enabling live
+testnet observation requires a separately reviewed protocol profile, including
+all Aave, oracle, token, and Uniswap addresses.
+
 ## Topology
 
 ```text
@@ -67,7 +83,8 @@ restart policy and log-based alerting for worker liveness.
 
 ## Health and Recovery
 
-`GET /api/operations/health` is the read-only operational check. A healthy
+`GET /api/health` and `GET /api/operations/health` are equivalent read-only
+operational checks. A healthy
 release should report:
 
 - `runtimeMode=LIVE_READ_ONLY`;

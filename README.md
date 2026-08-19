@@ -41,6 +41,20 @@ The execution/keeper worker is isolated from both the web runtime and the
 observation worker. Its credentials are not part of this public application.
 `LIVE_MAINNET_WRITE` is unsupported.
 
+## Current Public Release Status
+
+The public Vercel deployment is a read-only UI/API. Until a managed PostgreSQL
+archive and one persistent observer worker are provisioned, live endpoints
+fail closed as `UNAVAILABLE`; historical evidence remains available and is
+never presented as a current position.
+
+The checked-in live observer profile targets the supported X Layer mainnet
+market on chain `196` and validates that protocol address book on every read.
+The Phase 11 RPCs for X Layer testnet chain `1952` are used for historical
+deployment verification and are not interchangeable with the mainnet live
+profile. A chain-`1952` live observer requires a separately reviewed protocol
+configuration and is intentionally not enabled by this release.
+
 ## Repository Layout
 
 - `apps/web`: Next.js App Router application and read-only API routes.
@@ -89,8 +103,9 @@ The supported production topology is:
    with the archive writer role and read-only X Layer RPC access.
 5. Configure an ordered `EGRESS_XLAYER_RPC_URLS` failover list containing only
    approved HTTPS providers. Each provider is chain-checked before use.
-6. Verify `GET /api/operations/health` for database state, poller state, RPC
-   head, indexed-through block, index lag, freshness, and archive integrity.
+6. Verify `GET /api/health` (an alias of `/api/operations/health`) for database
+   state, poller state, RPC head, indexed-through block, index lag, freshness,
+   and archive integrity.
 
 See [docs/PRODUCTION.md](docs/PRODUCTION.md) for environment separation,
 backups, recovery, health checks, and the worker restart procedure. No paid
@@ -116,6 +131,10 @@ shown only as historical simulation evidence and is labeled as such.
 The replay endpoint serves the checked-in replay evidence artifact and
 reconstructs its source/diff identities without creating a signer at request
 time.
+
+The public deployment does not claim autonomous live execution. Policy
+preparation is refused in the hosted read-only runtime, and no signer or
+transaction-submission credential is loaded.
 
 ## Database and Observer
 

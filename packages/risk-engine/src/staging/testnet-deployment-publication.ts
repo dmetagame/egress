@@ -69,6 +69,11 @@ export const PHASE11_POLICY_NONCE = "11001" as const;
 export const PHASE11_INITIAL_COLLATERAL_WEI = "50000000000000000000" as const;
 export const PHASE11_INITIAL_DEBT_WEI = "44000000000000000000" as const;
 
+const PHASE11_JOURNAL_REPOSITORY_PATH =
+  "deployments/phase11/xlayer-testnet.json.journal.json" as const;
+const PHASE11_RECONCILIATION_REPOSITORY_PATH =
+  "deployments/phase11/xlayer-testnet.json.journal.json.reconciliation.json" as const;
+
 export const PHASE11_DEFAULT_EXECUTION_BOUNDS: TestnetExecutionBounds = {
   minimumRiskLevel: 3,
   maxRepaymentPerExecution: "12000000000000000000",
@@ -374,8 +379,10 @@ export function verifyPhase11ManifestPublicationSources(input: {
       input.manifest.reconciliationArtifactInternalHash?.toLowerCase() !== input.artifact.artifactHash.toLowerCase()) {
     throw new Phase11ManifestPublicationError("Manifest source digests do not match the immutable evidence files.");
   }
-  if (resolve(input.manifest.originalJournalPath ?? "") !== resolve(input.journalPath) ||
-      resolve(input.manifest.reconciliationArtifactPath ?? "") !== resolve(input.artifactPath)) {
+  assertPhase11SourcePath(input.journalPath, PHASE11_JOURNAL_REPOSITORY_PATH, "journal");
+  assertPhase11SourcePath(input.artifactPath, PHASE11_RECONCILIATION_REPOSITORY_PATH, "reconciliation artifact");
+  if (!samePhase11RepositoryPath(input.manifest.originalJournalPath ?? "", input.journalPath) ||
+      !samePhase11RepositoryPath(input.manifest.reconciliationArtifactPath ?? "", input.artifactPath)) {
     throw new Phase11ManifestPublicationError("Manifest source paths do not match the immutable evidence files.");
   }
   for (const [index, transaction] of input.artifact.transactions.entries()) {
@@ -415,6 +422,8 @@ export async function publishPhase11Manifest(input: {
   await assertRegularFilePath(artifactPath);
   await assertDirectoryPath(dirname(manifestPath));
   await assertPublicationSourceFilesDistinct(journalPath, artifactPath);
+  assertPhase11SourcePath(journalPath, PHASE11_JOURNAL_REPOSITORY_PATH, "journal");
+  assertPhase11SourcePath(artifactPath, PHASE11_RECONCILIATION_REPOSITORY_PATH, "reconciliation artifact");
 
   const journalBytesBefore = await readFile(journalPath);
   const journalSha256 = sha256Bytes(journalBytesBefore);
@@ -441,7 +450,7 @@ export async function publishPhase11Manifest(input: {
     );
   }
   if (artifact.originalJournalSha256 !== journalSha256 ||
-      resolve(artifact.originalJournalPath) !== journalPath) {
+      !samePhase11RepositoryPath(artifact.originalJournalPath, journalPath)) {
     throw new Phase11ManifestPublicationError("Reconciliation artifact does not bind to the immutable journal.");
   }
   if (await pathExists(manifestPath)) {
@@ -723,10 +732,38 @@ function assertSourceIdentity(input: {
       input.artifact.schemaVersion !== 1 ||
       input.artifact.overallStatus !== "PASS" ||
       input.artifact.transactions.length !== PHASE11_EXPECTED_TRANSACTION_COUNT ||
-      resolve(input.artifact.originalJournalPath) !== resolve(input.journalPath) ||
+      !samePhase11RepositoryPath(input.artifact.originalJournalPath, input.journalPath) ||
+      phase11RepositoryPath(input.journalPath) !== PHASE11_JOURNAL_REPOSITORY_PATH ||
+      phase11RepositoryPath(input.artifactPath) !== PHASE11_RECONCILIATION_REPOSITORY_PATH ||
       resolve(input.journalPath) === resolve(input.artifactPath)) {
     throw new Phase11ManifestPublicationError("Immutable publication sources are incomplete or incorrectly bound.");
   }
+}
+
+function assertPhase11SourcePath(path: string, expected: string, label: string): void {
+  if (phase11RepositoryPath(path) !== expected) {
+    throw new Phase11ManifestPublicationError(
+      `Phase 11 ${label} path must identify ${expected}.`,
+    );
+  }
+}
+
+function samePhase11RepositoryPath(left: string, right: string): boolean {
+  const leftPath = phase11RepositoryPath(left);
+  const rightPath = phase11RepositoryPath(right);
+  return leftPath !== null && leftPath === rightPath;
+}
+
+function phase11RepositoryPath(path: string): string | null {
+  const normalized = path.replaceAll("\\", "/");
+  const marker = "/deployments/phase11/";
+  const markerIndex = normalized.lastIndexOf(marker);
+  const relative = markerIndex >= 0
+    ? normalized.slice(markerIndex + 1)
+    : normalized.startsWith("deployments/phase11/")
+      ? normalized
+      : null;
+  return relative?.startsWith("deployments/phase11/") ? relative : null;
 }
 
 function assertPolicyEvidence(input: {

@@ -7,6 +7,7 @@ const excludedDirectories = new Set([
   ".git",
   ".next",
   ".data",
+  ".vercel",
   "node_modules",
   "dist",
   "out",

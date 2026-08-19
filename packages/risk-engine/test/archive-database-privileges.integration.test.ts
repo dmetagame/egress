@@ -1,5 +1,4 @@
 import { randomBytes, randomUUID } from "node:crypto";
-import { readFile } from "node:fs/promises";
 import { neon } from "@neondatabase/serverless";
 import { describe, expect, it } from "vitest";
 import {
@@ -17,11 +16,7 @@ import {
   archivePrivilegeTestRequested,
   resolveArchivePrivilegeTestConfig,
 } from "./archive-privilege-test-config.js";
-
-const SNAPSHOT_FIXTURE = new URL(
-  "../../../.data/live-archive/snapshots/0x5e021de28d509b6bde9fb4649324e4e7be4f11fe75c8f7ee48d6ac96d140d4ed.json",
-  import.meta.url,
-);
+import { createPostgresArchiveFixture } from "./archive-fixture.js";
 
 const STAGING_TABLES = [
   ["egress_execution_staging_intents", "intent_hash"],
@@ -55,7 +50,7 @@ describeIntegration("archive PostgreSQL runtime least-privilege audit", () => {
     await assertProtectedOperationsDenied(client);
 
     const archive = new PostgresLiveSnapshotArchive(config.databaseUrl, sql as never);
-    const base = parseArchivedSnapshot(JSON.parse(await readFile(SNAPSHOT_FIXTURE, "utf8")));
+    const base = parseArchivedSnapshot(createPostgresArchiveFixture());
     const first = uniqueSnapshot(base, randomUUID());
     const second = uniqueSnapshot(base, randomUUID());
     const firstObservedAt = new Date().toISOString();

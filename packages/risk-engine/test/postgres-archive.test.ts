@@ -1,4 +1,3 @@
-import { readFile } from "node:fs/promises";
 import { describe, expect, it } from "vitest";
 import {
   createObservation,
@@ -6,11 +5,7 @@ import {
   loadDatabaseMigrations,
   parseArchivedSnapshot,
 } from "../src/index.js";
-
-const SNAPSHOT_FIXTURE = new URL(
-  "../../../.data/live-archive/snapshots/0x5e021de28d509b6bde9fb4649324e4e7be4f11fe75c8f7ee48d6ac96d140d4ed.json",
-  import.meta.url,
-);
+import { createPostgresArchiveFixture } from "./archive-fixture.js";
 
 describe("PostgreSQL live archive", () => {
   it("keeps canonical rows immutable while retaining duplicate observations", async () => {
@@ -83,7 +78,7 @@ describe("PostgreSQL live archive", () => {
       "postgresql://test:test@example.invalid/egress",
       sql as never,
     );
-    const snapshot = parseArchivedSnapshot(JSON.parse(await readFile(SNAPSHOT_FIXTURE, "utf8")));
+    const snapshot = parseArchivedSnapshot(createPostgresArchiveFixture());
 
     const first = await archive.archive(snapshot, "2026-08-16T10:00:00.000Z");
     const second = await archive.archive(snapshot, "2026-08-16T10:01:00.000Z");

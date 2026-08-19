@@ -20,6 +20,12 @@ The service never constructs a wallet client, reads a private key, signs a trans
 
 The production configuration is X Layer mainnet, chain `196`, with the addresses recorded in [PROTOCOL_CONFIG.md](./PROTOCOL_CONFIG.md). The live adapter validates the address book on every snapshot block:
 
+This profile is intentionally separate from the Phase 11 compatibility
+deployment on X Layer testnet chain `1952`. The testnet RPC endpoints used by
+Phase 11 evidence cannot be substituted into this mainnet observer because the
+adapter rejects a wrong chain and the protocol contracts are a different
+address book.
+
 - Aave `PoolAddressesProvider.getPool()` and `getPriceOracle()` must match the configured pool and oracle.
 - The Uniswap factory must resolve the configured xBETH/xETH pool at fee tier `100`.
 - Pool token order, factory, fee, token decimals, and bytecode must match the configuration.
