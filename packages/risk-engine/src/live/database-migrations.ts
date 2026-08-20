@@ -25,6 +25,18 @@ const MIGRATION_DEFINITIONS = [
   },
 ] as const;
 
+// Keep each migration URL as a separate static import-time expression. The
+// Next/Turbopack server bundler can only trace dynamically read assets
+// reliably when their paths are statically discoverable. A template URL based
+// on `definition.file` was bundled as one asset in production, causing every
+// migration to be checked against migration 0001.
+const MIGRATION_ASSET_URLS = {
+  1: new URL("../../migrations/0001_phase8c_observation_operations.sql", import.meta.url),
+  2: new URL("../../migrations/0002_phase8c_rwa_source_revisions.sql", import.meta.url),
+  3: new URL("../../migrations/0003_phase9_execution_staging.sql", import.meta.url),
+  4: new URL("../../migrations/0004_phase10_execution_binding.sql", import.meta.url),
+} as const;
+
 const MIGRATION_STATEMENT_SEPARATOR = /^-- egress:statement\s*$/m;
 
 export interface DatabaseMigration {
@@ -68,7 +80,7 @@ export interface DatabaseMigrationClient extends DatabaseQueryClient {
 
 export async function loadDatabaseMigrations(): Promise<DatabaseMigration[]> {
   return Promise.all(MIGRATION_DEFINITIONS.map(async (definition) => {
-    const url = new URL(`../../migrations/${definition.file}`, import.meta.url);
+    const url = MIGRATION_ASSET_URLS[definition.version];
     const sql = normalizeMigrationSql(await readFile(url, "utf8"));
     return {
       ...definition,

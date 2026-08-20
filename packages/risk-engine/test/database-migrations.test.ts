@@ -34,6 +34,8 @@ describe("PostgreSQL migration contract", () => {
   it("loads ordered checksummed migrations and splits only explicit statements", async () => {
     const migrations = await loadDatabaseMigrations();
     expect(migrations.map((migration) => migration.version)).toEqual([1, 2, 3, 4]);
+    expect(new Set(migrations.map((migration) => migration.checksum)).size).toBe(4);
+    expect(new Set(migrations.map((migration) => migration.sql)).size).toBe(4);
     for (const migration of migrations) {
       expect(migration.checksum).toBe(migrationChecksum(migration.sql));
     }
