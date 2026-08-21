@@ -86,7 +86,7 @@ export async function loadDatabaseMigrations(): Promise<DatabaseMigration[]> {
     // Node's fs APIs require a filesystem path in the Vercel/Turbopack server
     // runtime. Convert at the boundary so the same validation path works in
     // local Node, CI, and the deployed server bundle.
-    const sql = normalizeMigrationSql(await readFile(fileURLToPath(url), "utf8"));
+    const sql = normalizeMigrationSql(await readFile(migrationAssetPath(url), "utf8"));
     return {
       ...definition,
       checksum: migrationChecksum(sql),
@@ -94,6 +94,14 @@ export async function loadDatabaseMigrations(): Promise<DatabaseMigration[]> {
       statements: splitMigrationStatements(sql),
     };
   }));
+}
+
+export function migrationAssetPath(url: { readonly href: string }): string {
+  // Next/Turbopack may construct the statically traced URL in a different
+  // JavaScript realm from Node's `url` module. Passing that object directly
+  // makes `fileURLToPath()` reject it even though it is URL-shaped. The href
+  // string is realm-independent and preserves the exact file URL semantics.
+  return fileURLToPath(url.href);
 }
 
 export async function migrateDatabase(databaseUrl: string): Promise<DatabaseMigrationResult> {

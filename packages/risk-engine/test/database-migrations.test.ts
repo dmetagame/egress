@@ -1,7 +1,9 @@
+import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 import {
   loadDatabaseMigrations,
   migrateDatabaseWithClient,
+  migrationAssetPath,
   migrationChecksum,
   splitMigrationStatements,
   validateDatabaseMigrations,
@@ -31,6 +33,14 @@ class FakeMigrationClient {
 }
 
 describe("PostgreSQL migration contract", () => {
+  it("normalizes statically traced URL-like migration assets across runtime realms", () => {
+    const migrationUrl = new URL(
+      "../migrations/0001_phase8c_observation_operations.sql",
+      import.meta.url,
+    );
+    expect(migrationAssetPath({ href: migrationUrl.href })).toBe(fileURLToPath(migrationUrl));
+  });
+
   it("loads ordered checksummed migrations and splits only explicit statements", async () => {
     const migrations = await loadDatabaseMigrations();
     expect(migrations.map((migration) => migration.version)).toEqual([1, 2, 3, 4]);
