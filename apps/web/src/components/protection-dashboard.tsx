@@ -174,6 +174,9 @@ function resolveProtectionState(live: LiveApiResponse, available: boolean): Prot
   const risk = snapshot.rwa.riskLevel;
   const executable = snapshot.executionPreview.plan.executable;
   const allowed = snapshot.executionPreview.policyEvaluation.allowed;
+  const healthBoundaryActive = snapshot.policy.policy
+    ? BigInt(snapshot.aave.position.healthFactorWad) <= BigInt(snapshot.policy.policy.triggerHealthFactorWad)
+    : false;
   if (risk === "HIGH" || risk === "CRITICAL") {
     if (executable && allowed) {
       return {
@@ -190,6 +193,16 @@ function resolveProtectionState(live: LiveApiResponse, available: boolean): Prot
       label: "AT RISK / BLOCKED",
       headline: "Risk is present, but Egress cannot establish a safe protection path.",
       description: "At least one policy, market, evidence, or simulation condition is blocking readiness. No action is presented as executable.",
+      tone: "danger",
+      stage: 2,
+    };
+  }
+  if (healthBoundaryActive) {
+    return {
+      key: `health-boundary-${risk ?? "unknown"}`,
+      label: "HEALTH BOUNDARY ACTIVE",
+      headline: "Health is inside the protection boundary.",
+      description: "The observed health factor is below the configured trigger. Egress keeps the response blocked until every deterministic risk, policy, liquidity, and post-action check passes.",
       tone: "danger",
       stage: 2,
     };

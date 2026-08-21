@@ -1,13 +1,16 @@
 import type { Metadata } from "next";
+import { connection } from "next/server";
 import { Activity, Boxes, Database, HeartPulse, Radio, ShieldAlert } from "lucide-react";
 import { DefinitionRow, PageHeader, SectionHeading, StatusPill } from "@/components/primitives";
 import { getLiveOperationalHealth } from "@/lib/server/live";
 import { formatDate, healthFactor, shortHash, tokenAmount } from "@/lib/format";
 
 export const metadata: Metadata = { title: "Operations" };
+export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export default async function OperationsPage() {
+  await connection();
   const health = await getLiveOperationalHealth();
   const tone = healthTone(health.poller.state);
   return (

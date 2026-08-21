@@ -217,6 +217,52 @@ describe("Live read-only UI safety", () => {
     expect(screen.getByText(/No transaction has been submitted/i)).toBeInTheDocument();
   });
 
+  it("surfaces an active health boundary even when the risk classification is LOW", () => {
+    const live = liveAvailable();
+    const boundary = {
+      ...live,
+      snapshot: {
+        ...live.snapshot!,
+        aave: {
+          ...live.snapshot!.aave,
+          position: {
+            ...live.snapshot!.aave.position,
+            healthFactorWad: "1044000000000000000",
+          },
+        },
+        rwa: {
+          ...live.snapshot!.rwa,
+          riskLevel: "LOW",
+        },
+        policy: {
+          ...live.snapshot!.policy!,
+          policy: {
+            ...live.snapshot!.policy!.policy!,
+            riskTrigger: "HIGH",
+            triggerHealthFactorWad: "1120000000000000000",
+          },
+        },
+        executionPreview: {
+          ...live.snapshot!.executionPreview!,
+          plan: {
+            ...live.snapshot!.executionPreview!.plan,
+            executable: false,
+            failureReason: "Policy caps cannot reach the target health factor.",
+          },
+          policyEvaluation: {
+            ...live.snapshot!.executionPreview!.policyEvaluation,
+            allowed: false,
+          },
+        },
+      },
+    } as LiveApiResponse;
+
+    render(<ProtectionDashboard live={boundary} current={null} />);
+    expect(screen.getByText("HEALTH BOUNDARY ACTIVE")).toBeInTheDocument();
+    expect(screen.getByText("Health is inside the protection boundary.")).toBeInTheDocument();
+    expect(screen.getByText(/keeps the response blocked/i)).toBeInTheDocument();
+  });
+
   it("renders a verified health boundary without inventing a warning value", () => {
     render(<HealthBoundary value={1.0346} trigger={1.05} target={1.075} />);
     expect(screen.getByText("DANGER / TRIGGERED")).toBeInTheDocument();
