@@ -9,24 +9,18 @@ import { PositionStrip } from "@/components/position-strip";
 import { Phase11EvidencePanel } from "@/components/phase11-evidence-panel";
 import { ReplayConsole } from "@/components/replay-console";
 import { getProductSnapshot } from "@/lib/server/snapshot";
-import {
-  getLiveArchiveDashboard,
-  toLiveAlertsApiResponse,
-  toLiveCurrentApiResponse,
-  toLiveHistoryApiResponse,
-} from "@/lib/server/live";
+import { readOverviewLiveData } from "@/lib/server/overview-live";
 
 export const metadata: Metadata = { title: "Protection overview" };
 export const runtime = "nodejs";
 
 export default async function OverviewPage() {
   await connection();
-  const [snapshot, liveDashboard] = await Promise.all([
+  const [snapshot, liveData] = await Promise.all([
     getProductSnapshot(),
-    getLiveArchiveDashboard(undefined, { refreshIfDue: false }),
+    readOverviewLiveData(),
   ]);
-  const live = liveDashboard.envelope;
-  const liveAvailable = liveDashboard.current?.snapshot.archiveStatus === "COMPLETE";
+  const liveAvailable = liveData.current.status === "COMPLETE";
   return (
     <div className="page-stack">
       <PageHeader
@@ -35,12 +29,12 @@ export default async function OverviewPage() {
         description="Current health, protection readiness, independent risk signals, and the evidence behind every decision."
         status={<StatusPill tone={liveAvailable ? "success" : "warning"} icon={ShieldCheck}>{liveAvailable ? "LIVE SNAPSHOT AVAILABLE" : "LIVE DATA UNAVAILABLE"}</StatusPill>}
       />
-      <ProtectionDashboard live={live} current={toLiveCurrentApiResponse(liveDashboard)} />
+      <ProtectionDashboard live={liveData.current.envelope} current={liveData.current} />
       <LiveOverview
-        initial={live}
-        initialCurrent={toLiveCurrentApiResponse(liveDashboard)}
-        initialHistory={toLiveHistoryApiResponse(liveDashboard).items}
-        initialAlerts={toLiveAlertsApiResponse(liveDashboard).items}
+        initial={liveData.current.envelope}
+        initialCurrent={liveData.current}
+        initialHistory={liveData.history.items}
+        initialAlerts={liveData.alerts.items}
       />
       <Phase11EvidencePanel />
       <section className="fork-evidence-section" aria-label="Pinned fork execution evidence">
