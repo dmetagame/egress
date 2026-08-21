@@ -45,11 +45,13 @@ observation worker. Its credentials are not part of this public application.
 ## Current Public Release Status
 
 The public Vercel deployment is a read-only UI/API backed by managed PostgreSQL.
-Its free Railway observer runs the existing one-shot poll every five minutes.
-This is a scheduled demo topology rather than an always-resident production
-worker; live endpoints still fail closed as `UNAVAILABLE` whenever a poll is
-late or required evidence cannot be verified. Historical evidence is never
-presented as a current position.
+Its free GitHub Actions observer runs the existing one-shot poll every five
+minutes. This is a scheduled demo topology rather than an always-resident
+production worker; GitHub-hosted schedules are best-effort, and live endpoints
+still fail closed as `UNAVAILABLE` whenever a poll is late or required evidence
+cannot be verified. Historical evidence is never presented as a current
+position. A stopped Railway service is retained only as an infrastructure
+placeholder and is not part of the active topology.
 
 The checked-in live observer profile targets the supported X Layer mainnet
 market on chain `196` and validates that protocol address book on every read.
@@ -104,7 +106,8 @@ The supported production topology is:
 3. Configure the Vercel web/API runtime with the archive read role and
    `EGRESS_WEB_INLINE_POLLING=false`.
 4. Build `deploy/worker/Dockerfile` with the archive writer role and read-only X
-   Layer RPC access. Run one persistent process, or schedule
+   Layer RPC access. Run one persistent process, or use the checked-in
+   `.github/workflows/live-observer.yml` schedule to run
    `node packages/risk-engine/dist/cli/live-poll.js --once` at the configured
    polling cadence when the host requires one-shot jobs.
 5. Configure an ordered `EGRESS_XLAYER_RPC_URLS` failover list containing only
@@ -115,7 +118,9 @@ The supported production topology is:
 
 See [docs/PRODUCTION.md](docs/PRODUCTION.md) for environment separation,
 backups, recovery, health checks, and the worker restart procedure. No paid
-database or worker service is provisioned by this repository.
+database or worker service is provisioned by this repository. Configure the
+GitHub repository secret `EGRESS_OBSERVER_DATABASE_URL` with the observer role
+URL before enabling the scheduled workflow.
 
 ## Public Demo
 

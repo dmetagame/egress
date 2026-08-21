@@ -10,9 +10,11 @@ live-data deployment requires PostgreSQL, one observer runtime, and a
 deliberately selected public observation account. With any dependency absent
 or stale, the API must report `UNAVAILABLE` rather than reuse historical data.
 
-The public demo uses managed PostgreSQL and a free Railway cron that executes
-the observer's `--once` mode every five minutes. This scheduled topology is not
-equivalent to an always-resident worker and should be upgraded for stricter
+The public demo uses managed PostgreSQL and a free GitHub Actions schedule that
+executes the observer's `--once` mode every five minutes. This scheduled
+topology is not equivalent to an always-resident worker: GitHub-hosted schedules
+are best-effort and may be delayed during platform load. It is suitable for a
+read-only demo, but should be replaced by a persistent worker for stricter
 poll-timing guarantees.
 
 The current observer address book is X Layer mainnet, chain `196`. The Phase 11
@@ -68,6 +70,14 @@ events, alerts, and source revisions. It receives no wallet key. Run exactly
 one active poller until an external leader lease is implemented. Prefer a
 persistent process. Where the host only provides scheduled jobs, run
 `live-poll.js --once` at the configured cadence and prevent overlap.
+
+The current public-demo scheduler is
+`.github/workflows/live-observer.yml`. It runs only from `main`, uses a
+repository secret named `EGRESS_OBSERVER_DATABASE_URL`, and serializes runs
+with a workflow concurrency group. The secret must contain the PostgreSQL URL
+for the observer/archive role, not the web read-only role and not a migration
+or owner credential. Keep the stopped Railway service out of the active
+topology until a persistent worker deployment is available.
 
 ### Migration role
 

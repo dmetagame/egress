@@ -1,0 +1,70 @@
+name: Egress read-only observer
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: egress-live-observer
+  cancel-in-progress: false
+
+jobs:
+  poll:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    env:
+      EGRESS_DATABASE_URL: ${{ secrets.EGRESS_OBSERVER_DATABASE_URL }}
+      EGRESS_RUNTIME_MODE: LIVE_READ_ONLY
+      EGRESS_DEPLOYMENT_ENV: production
+      EGRESS_WEB_INLINE_POLLING: "false"
+      EGRESS_XLAYER_RPC_URL: https://rpc.xlayer.tech
+      EGRESS_XLAYER_RPC_URLS: https://xlayerrpc.okx.com
+      EGRESS_LIVE_ACCOUNT: 0x9772fedc43123a6efbd1965617d0e079de2689e4
+      EGRESS_LIVE_MAINNET_BROADCAST: "false"
+      LIVE_MAINNET_BROADCAST: "false"
+      EGRESS_EXECUTION_ENVIRONMENT: DISABLED
+      EGRESS_EXECUTION_SUBMISSION_ENABLED: "false"
+      EGRESS_LIVE_MAX_BLOCK_AGE_SECONDS: "120"
+      EGRESS_LIVE_MAX_ORACLE_AGE_SECONDS: "21600"
+      EGRESS_LIVE_MAX_SOURCE_AGE_SECONDS: "86400"
+      EGRESS_LIVE_POLL_INTERVAL_SECONDS: "300"
+      EGRESS_LIVE_POLL_READ_TIMEOUT_MS: "120000"
+      EGRESS_LIVE_POLL_ARCHIVE_TIMEOUT_MS: "30000"
+      EGRESS_LIVE_POLL_MAX_ATTEMPTS: "2"
+      EGRESS_LIVE_POLL_RETRY_BACKOFF_MS: "500"
+      EGRESS_LIVE_POLL_MAX_RETRY_BACKOFF_MS: "5000"
+      EGRESS_LIVE_POLL_FAILURE_THRESHOLD: "3"
+      EGRESS_ALERT_CONSOLE_ENABLED: "true"
+
+    steps:
+      - name: Check out reviewed main
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.22.0
+          cache: npm
+
+      - name: Validate observer secret
+        shell: bash
+        run: |
+          test -n "$EGRESS_DATABASE_URL"
+          case "$EGRESS_DATABASE_URL" in
+            postgresql://*|postgres://*) ;;
+            *) echo "EGRESS_DATABASE_URL must be a PostgreSQL URL" >&2; exit 1 ;;
+          esac
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build risk engine
+        run: npm --workspace @egress/risk-engine run build
+
+      - name: Poll X Layer mainnet read-only state
+        run: node packages/risk-engine/dist/cli/live-poll.js --once
