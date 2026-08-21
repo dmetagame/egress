@@ -4,6 +4,7 @@
 **/.next/
 **/test-results/
 **/playwright-report/
+/.playwright-cli/
 **/coverage/
 **/*.tsbuildinfo
 /packages/risk-engine/dist/

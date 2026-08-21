@@ -7,11 +7,11 @@ import { MotionProvider } from "@/components/motion-provider";
 
 export const metadata: Metadata = {
   title: {
-    default: "Egress | Autonomous RWA protection",
+    default: "Egress | Policy-bounded protection",
     template: "%s | Egress",
   },
   description:
-    "AI-powered RWA risk detection with bounded autonomous deleveraging for xBETH-backed Aave positions on X Layer.",
+    "AI-powered risk observation and policy-bounded protection for xBETH-backed xETH debt on Aave X Layer.",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

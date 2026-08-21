@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Egress">
+  <rect width="64" height="64" rx="10" fill="#08100f"/>
+  <path d="M32 12 47 18v12c0 10-6.2 18.2-15 22-8.8-3.8-15-12-15-22V18l15-6Z" fill="none" stroke="#8be0b9" stroke-width="3"/>
+  <path d="M25 32h14M32 25v14" stroke="#8be0b9" stroke-width="3" stroke-linecap="round"/>
+</svg>

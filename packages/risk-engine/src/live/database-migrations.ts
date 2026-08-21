@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
+import { fileURLToPath } from "node:url";
 import { neon } from "@neondatabase/serverless";
 
 const MIGRATION_DEFINITIONS = [
@@ -81,7 +82,11 @@ export interface DatabaseMigrationClient extends DatabaseQueryClient {
 export async function loadDatabaseMigrations(): Promise<DatabaseMigration[]> {
   return Promise.all(MIGRATION_DEFINITIONS.map(async (definition) => {
     const url = MIGRATION_ASSET_URLS[definition.version];
-    const sql = normalizeMigrationSql(await readFile(url, "utf8"));
+    // `new URL(..., import.meta.url)` is useful for bundler asset tracing, but
+    // Node's fs APIs require a filesystem path in the Vercel/Turbopack server
+    // runtime. Convert at the boundary so the same validation path works in
+    // local Node, CI, and the deployed server bundle.
+    const sql = normalizeMigrationSql(await readFile(fileURLToPath(url), "utf8"));
     return {
       ...definition,
       checksum: migrationChecksum(sql),
