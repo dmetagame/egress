@@ -20,6 +20,8 @@ export const AUTHORITATIVE_OKX_SOURCES = [
 const AUTHORITATIVE_OKX_SOURCE_URL_ALIASES = [
   "https://www.okx.com/en-us/x-rwa",
   "https://www.okx.com/en-us/help/how-does-xasset-work",
+  "https://www.okx.com/en-eu/x-rwa",
+  "https://www.okx.com/en-eu/help/how-does-xasset-work",
 ] as const;
 
 const ALLOWLISTED_OKX_SOURCE_URLS = [

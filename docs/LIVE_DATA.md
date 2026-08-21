@@ -38,9 +38,12 @@ Allowlisted OKX sources:
 | OKX X-RWA overview | `https://www.okx.com/x-rwa` | General X-RWA and xBETH disclosures |
 | OKX X-Asset documentation | `https://www.okx.com/help/how-does-xasset-work` | Deposit, withdrawal, conversion, and operational conditions |
 
-OKX may canonicalize these pages to the corresponding exact `en-us` paths.
-Those two redirect targets are allowlisted explicitly; arbitrary locale or path
-redirects remain fail-closed.
+OKX may canonicalize these pages to the corresponding exact `en-us` or
+`en-eu` paths. The fetcher accepts only those reviewed OKX-owned aliases and
+continues to reject other locale paths, hosts, ports, query strings, fragments,
+and embedded credentials.
+Those reviewed redirect targets are allowlisted explicitly; arbitrary locale
+or path redirects remain fail-closed.
 
 The source adapter stores raw snapshots through the existing revision store, computes content hashes and semantic diffs, validates evidence, and exposes source revision IDs and hashes in the snapshot. A source that cannot be fetched, parsed, corroborated, or kept within its freshness window produces `LIVE_DATA_UNAVAILABLE`.
 

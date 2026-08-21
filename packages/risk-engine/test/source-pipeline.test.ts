@@ -80,6 +80,8 @@ describe("source ingestion and lifecycle", () => {
 
     expect(isAllowlistedSourceUrl("https://www.okx.com/en-us/x-rwa")).toBe(true);
     expect(isAllowlistedSourceUrl("https://www.okx.com/en-us/help/how-does-xasset-work")).toBe(true);
+    expect(isAllowlistedSourceUrl("https://www.okx.com/en-eu/x-rwa")).toBe(true);
+    expect(isAllowlistedSourceUrl("https://www.okx.com/en-eu/help/how-does-xasset-work")).toBe(true);
     expect(isAllowlistedSourceUrl("https://www.okx.com/en-gb/x-rwa")).toBe(false);
     const embeddedCredentialsUrl = [
       "https://user",
