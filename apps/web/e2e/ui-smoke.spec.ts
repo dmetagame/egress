@@ -20,6 +20,10 @@ test("all product routes render without browser errors or horizontal overflow", 
     }));
     expect(dimensions.document).toBeLessThanOrEqual(dimensions.viewport);
     expect(dimensions.body).toBeLessThanOrEqual(dimensions.viewport);
+    if (route === "/operations") {
+      await expect(page.getByText("LIVE MAINNET EXECUTION: DISABLED")).toBeVisible();
+      await expect(page.getByText(/Invalid URL/)).toHaveCount(0);
+    }
   }
 
   expect(browserErrors).toEqual([]);

@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { connection } from "next/server";
 import { Activity, Boxes, Database, HeartPulse, Radio, ShieldAlert } from "lucide-react";
 import { DefinitionRow, PageHeader, SectionHeading, StatusPill } from "@/components/primitives";
-import { getLiveOperationalHealth } from "@/lib/server/live";
+import { getLiveOperationalHealth, type LiveOperationsHealthApiResponse } from "@/lib/server/live";
 import { formatDate, healthFactor, shortHash, tokenAmount } from "@/lib/format";
 
 export const metadata: Metadata = { title: "Operations" };
@@ -11,7 +12,7 @@ export const dynamic = "force-dynamic";
 
 export default async function OperationsPage() {
   await connection();
-  const health = await getLiveOperationalHealth();
+  const health = await loadOperationsHealth();
   const tone = healthTone(health.poller.state);
   return (
     <div className="page-stack">
@@ -147,6 +148,25 @@ export default async function OperationsPage() {
       </div>
     </div>
   );
+}
+
+async function loadOperationsHealth(): Promise<LiveOperationsHealthApiResponse> {
+  const requestHeaders = await headers();
+  const host = requestHeaders.get("x-forwarded-host")?.split(",")[0]?.trim() ?? requestHeaders.get("host");
+  const protocol = requestHeaders.get("x-forwarded-proto")?.split(",")[0]?.trim() ?? "https";
+
+  if (!host) return getLiveOperationalHealth();
+
+  try {
+    const response = await fetch(`${protocol}://${host}/api/operations/health`, {
+      cache: "no-store",
+      headers: { accept: "application/json" },
+    });
+    if (!response.ok) return getLiveOperationalHealth();
+    return await response.json() as LiveOperationsHealthApiResponse;
+  } catch {
+    return getLiveOperationalHealth();
+  }
 }
 
 function OperationMetric({ label, value }: { label: string; value: string }) {
