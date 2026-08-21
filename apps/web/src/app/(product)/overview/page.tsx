@@ -17,6 +17,7 @@ import {
 } from "@/lib/server/live";
 
 export const metadata: Metadata = { title: "Protection overview" };
+export const runtime = "nodejs";
 
 export default async function OverviewPage() {
   await connection();
