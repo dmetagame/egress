@@ -65,7 +65,7 @@ export class XLayerReadAdapter {
   }
 
   async read(): Promise<XLayerAdapterResult> {
-    const now = this.now();
+    const configurationNow = this.now();
     const startedAt = Date.now();
     const expectedChainId = this.options.expectedChainId ?? XLAYER_MAINNET.chainId;
     if (
@@ -78,7 +78,7 @@ export class XLayerReadAdapter {
         health: unavailableHealth(
           "xlayer",
           "An expected observation block hash requires an observation block number.",
-          now,
+          configurationNow,
           {
             maxAgeSeconds: this.options.maxBlockAgeSeconds ?? 120,
             status: "INVALID_CONFIGURATION",
@@ -93,7 +93,7 @@ export class XLayerReadAdapter {
         health: unavailableHealth(
           "xlayer",
           "Observation block number cannot be negative.",
-          now,
+          configurationNow,
           {
             maxAgeSeconds: this.options.maxBlockAgeSeconds ?? 120,
             status: "INVALID_CONFIGURATION",
@@ -105,7 +105,12 @@ export class XLayerReadAdapter {
     const failures: Array<{ message: string; health: AdapterHealth }> = [];
     for (let index = 0; index < this.clients.length; index += 1) {
       const client = this.clients[index]!;
-      const result = await this.readFromClient(client, this.rpcUrls[index] ?? XLAYER_MAINNET.rpcUrl, now, startedAt, expectedChainId);
+      const result = await this.readFromClient(
+        client,
+        this.rpcUrls[index] ?? XLAYER_MAINNET.rpcUrl,
+        startedAt,
+        expectedChainId,
+      );
       if (result.state) {
         this.activeClient = client;
         return result;
@@ -129,7 +134,7 @@ export class XLayerReadAdapter {
         ...unavailableHealth(
           "xlayer",
           `All configured X Layer RPC providers failed. ${failures.map(({ message }) => message).join(" | ")}`,
-          now,
+          this.now(),
           { status: failureStatus },
         ),
         latencyMs: Date.now() - startedAt,
@@ -142,13 +147,13 @@ export class XLayerReadAdapter {
   private async readFromClient(
     client: PublicClient,
     rpcUrl: string,
-    now: Date,
     startedAt: number,
     expectedChainId: number,
   ): Promise<XLayerAdapterResult> {
     const publicRpcUrl = redactRpcUrl(rpcUrl);
     try {
       const chainId = await client.getChainId();
+      const chainCheckedAt = this.now();
       if (chainId !== expectedChainId) {
         return {
           state: null,
@@ -156,7 +161,7 @@ export class XLayerReadAdapter {
           health: unavailableHealth(
             "xlayer",
             `Wrong chain: expected ${expectedChainId}, received ${chainId}.`,
-            now,
+            chainCheckedAt,
             { maxAgeSeconds: this.options.maxBlockAgeSeconds ?? 120, status: "INVALID_CONFIGURATION" },
           ),
         };
@@ -166,12 +171,13 @@ export class XLayerReadAdapter {
       const block = pinned
         ? await client.getBlock({ blockNumber: this.options.observationBlockNumber })
         : await client.getBlock({ blockTag: "latest" });
+      const observedAt = this.now();
       const blockHash = block.hash as Hex | null;
       if (!blockHash || block.number === null) {
         return {
           state: null,
           client,
-          health: unavailableHealth("xlayer", "X Layer block did not include a hash and number.", now),
+          health: unavailableHealth("xlayer", "X Layer block did not include a hash and number.", observedAt),
         };
       }
       if (
@@ -184,7 +190,7 @@ export class XLayerReadAdapter {
           health: unavailableHealth(
             "xlayer",
             "Observation block hash does not match the configured expected hash.",
-            now,
+            observedAt,
             {
               blockNumber: block.number,
               maxAgeSeconds: this.options.maxBlockAgeSeconds ?? 120,
@@ -195,7 +201,7 @@ export class XLayerReadAdapter {
       }
 
       const blockTimestamp = new Date(Number(block.timestamp) * 1000);
-      const ageSeconds = (now.getTime() - blockTimestamp.getTime()) / 1000;
+      const ageSeconds = (observedAt.getTime() - blockTimestamp.getTime()) / 1000;
       const maxBlockAgeSeconds = this.options.maxBlockAgeSeconds ?? 120;
       const provenance = [
         publicRpcUrl,
@@ -207,7 +213,7 @@ export class XLayerReadAdapter {
         const health = availableHealth({
           adapter: "xlayer",
           message: "X Layer block was retrieved.",
-          now,
+          now: observedAt,
           blockNumber: block.number,
           sourceTimestamp: blockTimestamp,
           maxAgeSeconds: maxBlockAgeSeconds,
@@ -241,7 +247,7 @@ export class XLayerReadAdapter {
             message: pinned
               ? "X Layer RPC and pinned observation block are healthy."
               : "X Layer RPC and latest block are healthy.",
-            now,
+            now: observedAt,
             blockNumber: block.number,
             sourceTimestamp: blockTimestamp,
             maxAgeSeconds: maxBlockAgeSeconds,
@@ -255,7 +261,7 @@ export class XLayerReadAdapter {
         state: null,
         client,
         health: {
-          ...unavailableHealth("xlayer", errorMessage(error), now),
+          ...unavailableHealth("xlayer", errorMessage(error), this.now()),
           latencyMs: Date.now() - startedAt,
         },
       };

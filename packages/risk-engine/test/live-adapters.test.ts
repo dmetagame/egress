@@ -44,6 +44,30 @@ describe("live read-only adapters", () => {
     expect(result.client).toBe(secondary);
   });
 
+  it("evaluates fallback freshness when each provider response is received", async () => {
+    const primary = {
+      getChainId: async () => { throw new Error("primary unavailable"); },
+    } as unknown as PublicClient;
+    const fallbackObservedAt = new Date(NOW.getTime() + 10_000);
+    const secondary = {
+      getChainId: async () => 196,
+      getBlock: async () => ({
+        number: 67_981_001n,
+        hash: `0x${"bd".repeat(32)}`,
+        timestamp: BigInt(Math.floor(fallbackObservedAt.getTime() / 1_000)),
+      }),
+    } as unknown as PublicClient;
+    const times = [NOW, NOW, fallbackObservedAt, fallbackObservedAt];
+    const result = await new XLayerReadAdapter({
+      clients: [primary, secondary],
+      rpcUrls: ["https://primary.example/rpc", "https://secondary.example/rpc"],
+      now: () => times.shift() ?? fallbackObservedAt,
+    }).read();
+    expect(result.state?.rpcUrl).toBe("https://secondary.example");
+    expect(result.health.status).toBe("AVAILABLE");
+    expect(result.health.freshness.ageSeconds).toBe(0);
+  });
+
   it("pins an observation to an exact block and verifies its hash", async () => {
     const blockHash = `0x${"12".repeat(32)}` as const;
     let blockRequest: { blockNumber?: bigint; blockTag?: string } | undefined;

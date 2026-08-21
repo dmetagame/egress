@@ -1,7 +1,11 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it, vi } from "vitest";
-import type { LiveSnapshotEnvelope } from "@egress/risk-engine";
+import type {
+  LiveArchiveHistoryEntry,
+  LiveOperationalArchive,
+  LiveSnapshotEnvelope,
+} from "@egress/risk-engine";
 
 vi.mock("server-only", () => ({}));
 
@@ -165,6 +169,35 @@ describe("live server runtime", () => {
     expect(response.broadcastPermitted).toBe(false);
     expect(response.transactionSubmitted).toBe(false);
     expect(response.reasons.join(" ")).toMatch(/EGRESS_DATABASE_URL/i);
+  });
+
+  it("does not expose an old archived observation as current data", async () => {
+    const current = {
+      observation: { observedAt: "2026-08-21T10:00:00.000Z" },
+      snapshot: {
+        archiveStatus: "COMPLETE",
+        envelope: unavailableEnvelopeWithSecrets(),
+      },
+    } as LiveArchiveHistoryEntry;
+    const archive = {
+      current: async () => current,
+      history: async () => [current],
+      alerts: async () => [],
+    } as unknown as LiveOperationalArchive;
+    const dashboard = await getLiveArchiveDashboard(
+      { EGRESS_LIVE_POLL_INTERVAL_SECONDS: "300" },
+      {
+        archive,
+        refreshIfDue: false,
+        now: new Date("2026-08-21T10:20:00.000Z"),
+      },
+    );
+    const response = toLiveCurrentApiResponse(dashboard);
+    expect(response.status).toBe("UNAVAILABLE");
+    expect(response.snapshot).toBeNull();
+    expect(dashboard.history).toHaveLength(1);
+    expect(dashboard.archiveAvailable).toBe(true);
+    expect(response.reasons.join(" ")).toMatch(/historical data is not reused as current/i);
   });
 
   it("reports operator health as unavailable without creating an execution capability", async () => {

@@ -15,6 +15,7 @@ import {
   type AdapterHealth,
   type LiveAlert,
   type LiveArchiveHistoryEntry,
+  type LiveOperationalArchive,
   type LiveRuntimeConfig,
   type LiveSnapshotEnvelope,
   type LiveOperationalHealth,
@@ -33,6 +34,8 @@ export interface LiveArchiveDashboard {
   archiveAvailable: boolean;
   reasons: string[];
 }
+
+const CURRENT_OBSERVATION_UNAVAILABLE_MULTIPLIER = 3;
 
 export interface LiveCurrentApiResponse {
   mode: "LIVE_READ_ONLY";
@@ -129,6 +132,7 @@ export async function getLiveArchiveDashboard(
     historyLimit?: number;
     alertLimit?: number;
     now?: Date;
+    archive?: LiveOperationalArchive;
   } = {},
 ): Promise<LiveArchiveDashboard> {
   const config = readLiveRuntimeConfig(environment);
@@ -137,7 +141,7 @@ export async function getLiveArchiveDashboard(
   }
 
   try {
-    const archive = createLiveSnapshotArchive(config);
+    const archive = options.archive ?? createLiveSnapshotArchive(config);
     let current = await archive.current();
     const now = options.now ?? new Date();
     const currentAgeSeconds = current
@@ -158,6 +162,31 @@ export async function getLiveArchiveDashboard(
       archive.history({ limit: options.historyLimit ?? 20 }),
       archive.alerts({ limit: options.alertLimit ?? 30 }),
     ]);
+    const currentAgeAfterRefresh = Math.max(
+      0,
+      (now.getTime() - new Date(current.observation.observedAt).getTime()) / 1_000,
+    );
+    const currentUnavailableAfter =
+      config.pollIntervalSeconds * CURRENT_OBSERVATION_UNAVAILABLE_MULTIPLIER;
+    if (
+      current.snapshot.archiveStatus !== "COMPLETE" ||
+      currentAgeAfterRefresh > currentUnavailableAfter
+    ) {
+      const currentReason = currentAgeAfterRefresh > currentUnavailableAfter
+        ? `The latest live observation is ${Math.floor(currentAgeAfterRefresh)} seconds old; current data is unavailable beyond ${currentUnavailableAfter} seconds.`
+        : "The latest archived observation is not complete.";
+      return {
+        envelope: unavailableEnvelope([
+          currentReason,
+          "Historical data is not reused as current.",
+        ]),
+        current: null,
+        history,
+        alerts,
+        archiveAvailable: true,
+        reasons: [currentReason, "Historical data is not reused as current."],
+      };
+    }
     return {
       envelope: redactLiveEnvelopeForClient(current.snapshot.envelope),
       current,
