@@ -23,7 +23,7 @@ export default async function OverviewPage() {
   await connection();
   const [snapshot, liveDashboard] = await Promise.all([
     getProductSnapshot(),
-    getLiveArchiveDashboard(process.env, { refreshIfDue: false }),
+    getLiveArchiveDashboard(undefined, { refreshIfDue: false }),
   ]);
   const live = liveDashboard.envelope;
   const liveAvailable = liveDashboard.current?.snapshot.archiveStatus === "COMPLETE";
