@@ -46,9 +46,38 @@ test("landing story scrolls through every protection stage", async ({ page }) =>
   await expect(page.getByRole("heading", { name: "Protect the position before the market makes the decision." })).toBeVisible();
 });
 
-test("overview presents a fail-closed state and expandable risk evidence", async ({ page }) => {
+test("overview presents verified live data or a fail-closed state with expandable evidence", async ({ page }) => {
+  const currentResponse = await page.request.get("/api/live/current");
+  expect(currentResponse.status()).toBe(200);
+  const current = await currentResponse.json() as {
+    mode: string;
+    status: string;
+    risk: { classification: string | null };
+    snapshot: unknown | null;
+    envelope: { status: string; snapshot: unknown | null };
+    broadcastPermitted: boolean;
+    transactionSubmitted: boolean;
+  };
+  expect(current.mode).toBe("LIVE_READ_ONLY");
+  expect(current.broadcastPermitted).toBe(false);
+  expect(current.transactionSubmitted).toBe(false);
+
+  if (current.status === "COMPLETE") {
+    expect(current.envelope.status).toBe("AVAILABLE");
+    expect(current.snapshot).not.toBeNull();
+    expect(current.envelope.snapshot).not.toBeNull();
+    expect(current.risk.classification).not.toBeNull();
+  } else {
+    expect(current.status).toBe("UNAVAILABLE");
+    expect(current.envelope.status).toBe("LIVE_DATA_UNAVAILABLE");
+    expect(current.snapshot).toBeNull();
+    expect(current.envelope.snapshot).toBeNull();
+    expect(current.risk.classification).toBeNull();
+  }
+
   await page.goto("/overview", { waitUntil: "domcontentloaded" });
   await expect(page.getByText("Current protection state")).toBeVisible();
+  await expect(page.getByText("PREVIEW ONLY / NO TRANSACTION SUBMITTED")).toBeVisible();
   await page.locator(".risk-signal-section").scrollIntoViewIfNeeded();
   await page.waitForTimeout(550);
 
@@ -56,7 +85,18 @@ test("overview presents a fail-closed state and expandable risk evidence", async
   await expect(signals).toHaveCount(6);
   await signals.first().locator("summary").click();
   await expect(signals.first()).toHaveAttribute("open", "");
-  await expect(page.getByText("No backing-risk state is inferred from incomplete data.")).toBeVisible();
+
+  const liveActions = page.locator(".live-overview-actions");
+  const liveStatus = liveActions.getByText("LIVE DATA AVAILABLE", { exact: true });
+  const unavailableStatus = liveActions.getByText("DATA UNAVAILABLE", { exact: true });
+  await expect(liveStatus.or(unavailableStatus)).toHaveCount(1);
+  if (await liveStatus.isVisible()) {
+    await expect(page.getByText("SNAPSHOT COMPLETE", { exact: true })).toBeVisible();
+    await expect(page.getByText("No backing-risk state is inferred from incomplete data.")).toHaveCount(0);
+  } else {
+    await expect(page.getByText("INCOMPLETE DATA", { exact: true })).toBeVisible();
+    await expect(page.getByText("No backing-risk state is inferred from incomplete data.")).toBeVisible();
+  }
 });
 
 test("wallet controls fail safely without an injected browser wallet", async ({ page }) => {

@@ -84,10 +84,10 @@ export function EnvironmentNotice() {
   return (
     <div className="environment-banner environment-live" data-lenis-prevent-wheel role="status">
       <span className="environment-indicator" aria-hidden="true" />
-      <strong>READ-ONLY DEMO</strong>
-      <span>X Layer testnet evidence / chain 1952</span>
-      <span>Current live observation only when configured</span>
-      <span className="environment-secondary">Historical fork simulation remains labeled separately</span>
+      <strong>LIVE READ-ONLY</strong>
+      <span>X Layer mainnet observation / chain 196</span>
+      <span>Historical testnet evidence / chain 1952</span>
+      <span className="environment-secondary">Broadcast disabled / stale data fails closed</span>
     </div>
   );
 }

@@ -82,9 +82,10 @@ function response(
 describe("Egress product safety states", () => {
   it("always labels the public environment boundaries", () => {
     render(<EnvironmentNotice />);
-    expect(screen.getByText("READ-ONLY DEMO")).toBeInTheDocument();
-    expect(screen.getByText("X Layer testnet evidence / chain 1952")).toBeInTheDocument();
-    expect(screen.getByText("Historical fork simulation remains labeled separately")).toBeInTheDocument();
+    expect(screen.getByText("LIVE READ-ONLY")).toBeInTheDocument();
+    expect(screen.getByText("X Layer mainnet observation / chain 196")).toBeInTheDocument();
+    expect(screen.getByText("Historical testnet evidence / chain 1952")).toBeInTheDocument();
+    expect(screen.getByText("Broadcast disabled / stale data fails closed")).toBeInTheDocument();
   });
 
   it("renders the control loop with explicit statuses", () => {
