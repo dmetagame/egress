@@ -28,14 +28,15 @@ Vercel: Next.js web + read-only API
                   |
         Managed PostgreSQL archive
                   ^
-Persistent observation worker: npm run live:poll
+Observation worker: persistent loop or scheduled --once poll
 ```
 
-The observer is a long-running process. It owns polling and archive writes and
-must run on a container, VM, or equivalent persistent service with a restart
-policy. It must not be placed inside a Vercel serverless function. The public
-web runtime reads PostgreSQL only and fails closed when the archive or required
-evidence is unavailable.
+The observer owns polling and archive writes. The preferred topology is one
+long-running container or VM with a restart policy. A scheduler may instead run
+the existing `--once` mode at a bounded cadence when the host cannot provide an
+always-resident free process. Neither mode belongs inside a Vercel serverless
+function. The public web runtime reads PostgreSQL only and fails closed when the
+archive or required evidence is unavailable.
 
 The execution/keeper worker is isolated from both the web runtime and the
 observation worker. Its credentials are not part of this public application.
@@ -43,10 +44,12 @@ observation worker. Its credentials are not part of this public application.
 
 ## Current Public Release Status
 
-The public Vercel deployment is a read-only UI/API. Until a managed PostgreSQL
-archive and one persistent observer worker are provisioned, live endpoints
-fail closed as `UNAVAILABLE`; historical evidence remains available and is
-never presented as a current position.
+The public Vercel deployment is a read-only UI/API backed by managed PostgreSQL.
+Its free Railway observer runs the existing one-shot poll every five minutes.
+This is a scheduled demo topology rather than an always-resident production
+worker; live endpoints still fail closed as `UNAVAILABLE` whenever a poll is
+late or required evidence cannot be verified. Historical evidence is never
+presented as a current position.
 
 The checked-in live observer profile targets the supported X Layer mainnet
 market on chain `196` and validates that protocol address book on every read.
@@ -64,7 +67,8 @@ configuration and is intentionally not enabled by this release.
 - `deployments/phase11`: immutable testnet deployment, reconciliation, and
   manifest evidence.
 - `docs`: protocol, operations, database, execution, and release guidance.
-- `deploy/worker`: persistent observer container definition.
+- `deploy/worker`: observer container definition for persistent or scheduled
+  one-shot operation.
 
 ## Local Development
 
@@ -99,8 +103,10 @@ The supported production topology is:
    with a separate migration role.
 3. Configure the Vercel web/API runtime with the archive read role and
    `EGRESS_WEB_INLINE_POLLING=false`.
-4. Build and run `deploy/worker/Dockerfile` as one persistent observer process
-   with the archive writer role and read-only X Layer RPC access.
+4. Build `deploy/worker/Dockerfile` with the archive writer role and read-only X
+   Layer RPC access. Run one persistent process, or schedule
+   `node packages/risk-engine/dist/cli/live-poll.js --once` at the configured
+   polling cadence when the host requires one-shot jobs.
 5. Configure an ordered `EGRESS_XLAYER_RPC_URLS` failover list containing only
    approved HTTPS providers. Each provider is chain-checked before use.
 6. Verify `GET /api/health` (an alias of `/api/operations/health`) for database

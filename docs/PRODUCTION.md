@@ -5,11 +5,15 @@ not provision infrastructure and does not authorize blockchain writes.
 
 ## Current Release Gate
 
-The repository contains the web/API and the persistent observer implementation,
-but the public Vercel project is not a live-data deployment until PostgreSQL,
-the singleton observer, and a deliberately selected public observation account
-are provisioned. With those dependencies absent, the API must report
-`UNAVAILABLE` rather than reuse historical data.
+The repository contains the web/API and singleton observer implementation. A
+live-data deployment requires PostgreSQL, one observer runtime, and a
+deliberately selected public observation account. With any dependency absent
+or stale, the API must report `UNAVAILABLE` rather than reuse historical data.
+
+The public demo uses managed PostgreSQL and a free Railway cron that executes
+the observer's `--once` mode every five minutes. This scheduled topology is not
+equivalent to an always-resident worker and should be upgraded for stricter
+poll-timing guarantees.
 
 The current observer address book is X Layer mainnet, chain `196`. The Phase 11
 testnet endpoints (`https://testrpc.xlayer.tech/terigon` and
@@ -28,7 +32,7 @@ Browser
 Vercel Next.js web/API  --read-->  Managed PostgreSQL
                                          ^
                                          |
-                              Persistent observer worker
+                         Singleton observer worker or scheduler
                                          |
                               Approved X Layer RPCs (read-only)
 ```
@@ -57,11 +61,13 @@ Do not configure private keys, `EGRESS_EXECUTION_PRIVATE_KEY`, or execution
 submission credentials in Vercel. Do not prefix database or webhook values with
 `NEXT_PUBLIC_`.
 
-### Persistent observer
+### Observer runtime
 
 The worker uses a role permitted to append canonical observations, operational
 events, alerts, and source revisions. It receives no wallet key. Run exactly
-one active poller until an external leader lease is implemented.
+one active poller until an external leader lease is implemented. Prefer a
+persistent process. Where the host only provides scheduled jobs, run
+`live-poll.js --once` at the configured cadence and prevent overlap.
 
 ### Migration role
 
@@ -75,6 +81,8 @@ to create or silently upgrade an ambiguous schema.
 npm ci
 npm run db:migrate
 npm run live:poll
+# Scheduled alternative:
+npm run live:poll -- --once
 ```
 
 The container equivalent is defined in

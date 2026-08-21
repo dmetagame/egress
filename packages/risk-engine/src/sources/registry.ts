@@ -17,6 +17,16 @@ export const AUTHORITATIVE_OKX_SOURCES = [
   },
 ] as const satisfies readonly SourceDefinition[];
 
+const AUTHORITATIVE_OKX_SOURCE_URL_ALIASES = [
+  "https://www.okx.com/en-us/x-rwa",
+  "https://www.okx.com/en-us/help/how-does-xasset-work",
+] as const;
+
+const ALLOWLISTED_OKX_SOURCE_URLS = [
+  ...AUTHORITATIVE_OKX_SOURCES.map((source) => source.url),
+  ...AUTHORITATIVE_OKX_SOURCE_URL_ALIASES,
+] as const;
+
 export function sourceById(sourceId: string): SourceDefinition | undefined {
   return AUTHORITATIVE_OKX_SOURCES.find((source) => source.id === sourceId);
 }
@@ -24,11 +34,15 @@ export function sourceById(sourceId: string): SourceDefinition | undefined {
 export function isAllowlistedSourceUrl(url: string): boolean {
   try {
     const candidate = new URL(url);
-    return AUTHORITATIVE_OKX_SOURCES.some((source) => {
-      const approved = new URL(source.url);
+    return ALLOWLISTED_OKX_SOURCE_URLS.some((url) => {
+      const approved = new URL(url);
       return (
         candidate.protocol === "https:" &&
-        candidate.hostname === approved.hostname &&
+        candidate.origin === approved.origin &&
+        candidate.username === "" &&
+        candidate.password === "" &&
+        candidate.search === "" &&
+        candidate.hash === "" &&
         candidate.pathname.replace(/\/$/, "") === approved.pathname.replace(/\/$/, "")
       );
     });

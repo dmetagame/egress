@@ -6,6 +6,10 @@ import {
   InMemorySourceFetcher,
 } from "../src/sources/fetcher.js";
 import { SourceIngestionService } from "../src/sources/ingest.js";
+import {
+  AUTHORITATIVE_OKX_SOURCES,
+  isAllowlistedSourceUrl,
+} from "../src/sources/registry.js";
 import { defaultStorePath, InMemoryStore } from "../src/sources/store.js";
 import { runRevision, TEST_NOW } from "./helpers.js";
 
@@ -38,6 +42,52 @@ describe("source ingestion and lifecycle", () => {
       /outside allowlist/i,
     );
     expect(requestedUrls).toEqual([REPLAY_SOURCE.url]);
+  });
+
+  it("accepts only the reviewed OKX locale redirect targets", async () => {
+    const source = AUTHORITATIVE_OKX_SOURCES[0];
+    const canonicalUrl = "https://www.okx.com/en-us/x-rwa";
+    const requestedUrls: string[] = [];
+    const fetcher = new AllowlistedHttpSourceFetcher({
+      fetchImplementation: async (input) => {
+        const requestedUrl = String(input);
+        requestedUrls.push(requestedUrl);
+        if (requestedUrl === source.url) {
+          return new Response(null, {
+            status: 302,
+            headers: { location: canonicalUrl },
+          });
+        }
+        return new Response("<html><body><article>Verified OKX X-RWA source content for testing.</article></body></html>", {
+          status: 200,
+          headers: { "content-type": "text/html; charset=utf-8" },
+        });
+      },
+    });
+
+    const retrieved = await fetcher.fetch(source);
+
+    expect(requestedUrls).toEqual([source.url, canonicalUrl]);
+    expect(retrieved.responseMetadata.finalUrl).toBe(canonicalUrl);
+
+    const unreviewedRedirectFetcher = new AllowlistedHttpSourceFetcher({
+      fetchImplementation: async () => new Response(null, {
+        status: 302,
+        headers: { location: "https://www.okx.com/en-gb/x-rwa" },
+      }),
+    });
+    await expect(unreviewedRedirectFetcher.fetch(source)).rejects.toThrow(/outside allowlist/i);
+
+    expect(isAllowlistedSourceUrl("https://www.okx.com/en-us/x-rwa")).toBe(true);
+    expect(isAllowlistedSourceUrl("https://www.okx.com/en-us/help/how-does-xasset-work")).toBe(true);
+    expect(isAllowlistedSourceUrl("https://www.okx.com/en-gb/x-rwa")).toBe(false);
+    const embeddedCredentialsUrl = [
+      "https://user",
+      ":secret@www.okx.com/en-us/x-rwa",
+    ].join("");
+    expect(isAllowlistedSourceUrl(embeddedCredentialsUrl)).toBe(false);
+    expect(isAllowlistedSourceUrl("https://www.okx.com:444/en-us/x-rwa")).toBe(false);
+    expect(isAllowlistedSourceUrl("https://www.okx.com/en-us/x-rwa?redirect=1")).toBe(false);
   });
 
   it("stops reading a streamed response when the byte limit is exceeded", async () => {

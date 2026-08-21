@@ -54,6 +54,10 @@ The initial registry contains:
 - `https://www.okx.com/x-rwa`
 - `https://www.okx.com/help/how-does-xasset-work`
 
+The fetcher also accepts the exact OKX-owned `en-us` canonical path for each
+source when OKX returns a geo-dependent redirect. Other locale or path variants
+remain outside the allowlist.
+
 Only exact allowlisted HTTPS host/path pairs are accepted. Every redirect target is checked before the next request. Responses must be HTML, are streamed through a 2 MB byte budget and time out by default after 15 seconds.
 
 Each changed normalized document records:

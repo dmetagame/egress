@@ -1,7 +1,7 @@
 # Egress observation worker
 
-The observation poller is a persistent, read-only process. It owns polling and
-all archive writes; the Vercel web/API runtime only reads PostgreSQL.
+The observation poller is read-only. It owns polling and all archive writes;
+the Vercel web/API runtime only reads PostgreSQL.
 
 Build from the repository root:
 
@@ -23,8 +23,21 @@ The worker must not receive `NEXT_PUBLIC_*` secrets, signer variables, private
 keys, or execution-submission credentials. Apply migrations with the separate
 migration role before starting it. Use the web `GET /api/operations/health`
 endpoint for database, poller, RPC-head, indexed-through, and lag checks. A
-process supervisor must restart the worker and alert on missing successful poll
-events; run only one active poller until an external leader lease is added.
+process supervisor must restart a persistent worker and alert on missing
+successful poll events; run only one active poller until an external leader
+lease is added.
+
+For a host that supports scheduled jobs but not an always-resident free
+process, use the existing one-shot mode:
+
+```bash
+node packages/risk-engine/dist/cli/live-poll.js --once
+```
+
+Schedule it at the same cadence as `EGRESS_LIVE_POLL_INTERVAL_SECONDS` and do
+not allow overlapping runs. Scheduled mode is suitable for the public demo but
+has weaker timing guarantees than a persistent worker, so operational health
+remains the source of truth.
 
 The current observer address book is X Layer mainnet, chain `196`. The Phase 11
 chain-`1952` testnet RPC endpoints are reserved for historical deployment

@@ -76,10 +76,10 @@ an observation older than two poll intervals is `DEGRADED`, and one older than t
 Snapshot age measures time since observation; archive lag separately measures the delay between the canonical
 state timestamp and the immutable observation record.
 
-Run the CLI poller as one production worker. Single-flight protection prevents overlap within that worker;
+Run the CLI poller as one production worker, or schedule its `--once` mode at the configured polling cadence when the host does not support an always-resident process. Single-flight protection prevents overlap within a persistent worker;
 PostgreSQL content-addressing, alert deduplication, UUID delivery leases, and append-only source revision
 storage keep restarts and duplicate worker attempts from overwriting canonical state. A deployment that runs
-multiple active poller replicas should add an external singleton/leader lease at the process supervisor layer.
+multiple active poller replicas or overlapping scheduled jobs should add an external singleton/leader lease at the process supervisor layer.
 
 The Phase 9 staging worker is a separate process and must not share its private-key environment
 with the observation poller or web runtime. The observation deployment remains singleton until an
